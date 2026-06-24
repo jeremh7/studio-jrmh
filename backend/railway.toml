@@ -1,0 +1,8 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "composer install --no-dev --optimize-autoloader && php bin/console lexik:jwt:generate-keypair --overwrite --env=prod && php bin/console cache:warmup --env=prod"
+
+[deploy]
+startCommand = "php -S 0.0.0.0:$PORT -t public/"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
