@@ -1,0 +1,108 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Message de {{ contact.name }}{% endblock %}
+{% block page_title %}MESSAGE{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_contact_index') }}" class="back-link">← Retour aux messages</a>
+
+<div class="page-header">
+    <div>
+        <div class="page-header-title">{{ contact.name|upper }}</div>
+        <div class="page-header-sub" style="display:flex;align-items:center;gap:12px;margin-top:6px">
+            <span>// {{ contact.createdAt|date('d/m/Y à H:i') }}</span>
+            {% if contact.isRead %}
+                <span class="badge badge-active">Lu</span>
+            {% else %}
+                <span class="badge badge-warning">Non lu</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="flex-gap">
+        {# Toggle lu/non lu #}
+        <form method="post" action="{{ path('admin_contact_toggle_read', {id: contact.id}) }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('toggle_' ~ contact.id) }}">
+            <button class="btn btn-ghost btn-sm">
+                {{ contact.isRead ? 'Marquer non lu' : 'Marquer lu' }}
+            </button>
+        </form>
+
+        {# Suppression #}
+        <button class="btn btn-danger btn-sm"
+            onclick="showDeleteModal(
+                'SUPPRIMER',
+                'Supprimer le message de {{ contact.name|e('js') }} ? Cette action est irréversible.',
+                function() { document.getElementById('delete-form-{{ contact.id }}').submit(); }
+            )">
+            Supprimer
+        </button>
+        <form id="delete-form-{{ contact.id }}" method="post"
+              action="{{ path('admin_contact_delete', {id: contact.id}) }}" style="display:none">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_contact_' ~ contact.id) }}">
+        </form>
+    </div>
+</div>
+
+<div class="grid-2" style="align-items:start;gap:24px">
+
+    {# Infos expéditeur #}
+    <div class="card">
+        <div class="card-head">
+            <span class="card-head-title">EXPÉDITEUR</span>
+        </div>
+        <div class="card-body">
+            <div class="info-row">
+                <span class="info-row-label">Nom</span>
+                <span class="info-row-value">{{ contact.name }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row-label">Email</span>
+                <span class="info-row-value">
+                    <a href="mailto:{{ contact.email }}"
+                       style="color:var(--gold);transition:color .12s"
+                       onmouseover="this.style.color='var(--white)'"
+                       onmouseout="this.style.color='var(--gold)'">
+                        {{ contact.email }}
+                    </a>
+                </span>
+            </div>
+            {% if contact.subject %}
+            <div class="info-row">
+                <span class="info-row-label">Sujet</span>
+                <span class="info-row-value">{{ contact.subject }}</span>
+            </div>
+            {% endif %}
+            <div class="info-row">
+                <span class="info-row-label">Reçu le</span>
+                <span class="info-row-value mono" style="font-size:12px">{{ contact.createdAt|date('d/m/Y à H:i:s') }}</span>
+            </div>
+
+            <div class="sep"></div>
+
+            <a href="mailto:{{ contact.email }}?subject=Re: {{ contact.subject|default('Votre message')|url_encode }}"
+               class="btn btn-primary" style="width:100%;justify-content:center">
+                Répondre par email →
+            </a>
+        </div>
+    </div>
+
+    {# Message #}
+    <div class="card">
+        <div class="card-head">
+            <span class="card-head-title">MESSAGE</span>
+        </div>
+        <div class="card-body">
+            <div style="
+                font-family: var(--font-body);
+                font-size: 13.5px;
+                line-height: 1.8;
+                color: var(--paper);
+                white-space: pre-wrap;
+                background: var(--bg3);
+                border: 0.5px solid var(--border);
+                padding: 20px 22px;
+            ">{{ contact.message }}</div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Éditer — {{ gallery.title }}{% endblock %}
+{% block page_title %}ÉDITER{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_galleries_show', {id: gallery.id}) }}" class="back-link">← Retour</a>
+
+<div style="max-width:660px">
+    <div class="page-header">
+        <div>
+            <div class="page-header-title">ÉDITER</div>
+            <div class="page-header-sub">// {{ gallery.title }}</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {# Formulaire principal — sauvegarde #}
+            <form method="post" id="edit-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Client</label>
+                        <select name="client_id" class="form-control">
+                            {% for c in clients %}
+                            <option value="{{ c.id }}" {% if c.id == gallery.client.id %}selected{% endif %}>
+                                {{ c.fullName }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date de session</label>
+                        <input type="date" name="session_date" class="form-control"
+                               value="{{ gallery.sessionDate ? gallery.sessionDate|date('Y-m-d') : '' }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Titre</label>
+                    <input type="text" name="title" class="form-control"
+                           value="{{ gallery.title }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea name="description" class="form-control">{{ gallery.description }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox" name="download_enabled" value="1"
+                               {% if gallery.downloadEnabled %}checked{% endif %}>
+                        Téléchargement autorisé
+                    </label>
+                </div>
+
+                {% if gallery.status == 'active' %}
+                <div class="sep"></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Date d'expiration</label>
+                        <input type="date" name="expires_at" class="form-control"
+                               value="{{ gallery.expiresAt ? gallery.expiresAt|date('Y-m-d') : '' }}"
+                               placeholder="Laisser vide = illimité">
+                        <small class="text-muted" style="font-size:10px">Laisser vide pour accès illimité</small>
+                    </div>
+                    <div class="form-group" style="align-self:flex-end">
+                        <label class="form-check" style="margin-bottom:10px">
+                            <input type="checkbox" name="expires_at" value="unlimited"
+                                   {% if not gallery.expiresAt %}checked{% endif %}
+                                   onchange="document.querySelector('[name=expires_at][type=date]').disabled=this.checked">
+                            Accès illimité
+                        </label>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="sep"></div>
+
+                <div class="flex-between">
+                    {# Bouton supprimer — formulaire SÉPARÉ en dehors du form principal #}
+                    <button type="button" class="btn btn-danger btn-sm"
+                            onclick="showDeleteModal('SUPPRIMER LA GALERIE', 'Toutes les photos de cette galerie seront définitivement supprimées. Le client perdra son accès immédiatement.', () => document.getElementById('delete-form').submit())">
+                        Supprimer la galerie
+                    </button>
+                    <div class="flex-gap">
+                        <a href="{{ path('admin_galleries_show', {id: gallery.id}) }}" class="btn btn-ghost">Annuler</a>
+                        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{# Formulaire de suppression — EN DEHORS de tout autre form #}
+<form id="delete-form" method="post" action="{{ path('admin_galleries_delete', {id: gallery.id}) }}" style="display:none">
+</form>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Work{% endblock %}
+{% block page_title %}WORK{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-header-title">WORK</div>
+        <div class="page-header-sub">// {{ projects|length }} projet{{ projects|length > 1 ? 's' : '' }}</div>
+    </div>
+    <div class="flex-gap">
+        <form method="get" class="flex-gap">
+            <select name="category" class="form-control" style="width:140px;padding:8px 12px;font-size:12px" onchange="this.form.submit()">
+                <option value="">Toutes catégories</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if category == cat %}selected{% endif %}>{{ cat|capitalize }}</option>
+                {% endfor %}
+            </select>
+            <select name="status" class="form-control" style="width:130px;padding:8px 12px;font-size:12px" onchange="this.form.submit()">
+                <option value="">Tous statuts</option>
+                <option value="draft" {% if status == 'draft' %}selected{% endif %}>Brouillon</option>
+                <option value="published" {% if status == 'published' %}selected{% endif %}>Publié</option>
+                <option value="archived" {% if status == 'archived' %}selected{% endif %}>Archivé</option>
+            </select>
+        </form>
+        <a href="{{ path('admin_work_new') }}" class="btn btn-primary">+ Nouveau projet</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr><th>Projet</th><th>Catégorie</th><th>Date</th><th>Photos</th><th>Statut</th><th>Mis en avant</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for p in projects %}
+            <tr>
+                <td>
+                    <div class="flex-gap" style="gap:12px">
+                        {% if p.coverImageUrl %}
+                        <div style="width:40px;height:40px;background:#111;overflow:hidden;flex-shrink:0;border:0.5px solid var(--border)">
+                            <img src="{{ p.coverImageUrl }}" style="width:100%;height:100%;object-fit:cover" alt="">
+                        </div>
+                        {% else %}
+                        <div style="width:40px;height:40px;background:var(--bg3);border:0.5px solid var(--border);flex-shrink:0"></div>
+                        {% endif %}
+                        <div>
+                            <a href="{{ path('admin_work_show', {id: p.id}) }}" class="text-white" style="font-weight:500">{{ p.title }}</a>
+                            {% if p.location %}<div class="text-muted" style="font-size:11px">{{ p.location }}</div>{% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td><span class="badge badge-draft">{{ p.categoryLabel }}</span></td>
+                <td class="text-muted" style="font-size:12px">{{ p.eventDate ? p.eventDate|date('d/m/Y') : '—' }}</td>
+                <td class="mono text-muted" style="font-size:12px">{{ p.photoCount }}</td>
+                <td>
+                    <span class="badge badge-{{ p.status }}">{{ p.status }}</span>
+                </td>
+                <td class="mono text-muted" style="font-size:12px">{{ p.featured ? '★' : '—' }}</td>
+                <td><a href="{{ path('admin_work_show', {id: p.id}) }}" class="btn btn-ghost btn-sm">→</a></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="7" class="text-muted" style="text-align:center;padding:48px">Aucun projet. Créez-en un !</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

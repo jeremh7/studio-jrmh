@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ── Variables ─────────────────────────────────────────────────── */
+:root {
+  --bg:           #080808;
+  --paper:        #F0F0F0;
+  --white:        #FFFFFF;
+  --muted:        rgba(240,240,240,0.38);
+  --border:       rgba(240,240,240,0.08);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-bebas:   'Bebas Neue', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* Tailles de focus accessibles */
+  --focus-ring: 2px solid #FFFFFF;
+  --focus-offset: 3px;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ── Base ───────────────────────────────────────────────────────── */
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+  /* Taille de texte minimale recommandée W3C : 16px base */
+  font-size: 16px;
+}
+
+/* Désactive le scroll smooth si l'utilisateur le préfère */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--paper);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Taille de texte corps : minimum 16px pour W3C */
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ── Focus visible global — W3C WCAG 2.4.7 ──────────────────────
+   Tous les éléments interactifs doivent avoir un focus visible
+   avec un contraste suffisant (3:1 minimum)                      */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+/* Supprime le focus pour les clics souris (garde pour clavier) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Couleurs & contraste W3C AA ────────────────────────────────
+   - Texte normal : ratio ≥ 4.5:1
+   - Grand texte (≥ 18px / 14px bold) : ratio ≥ 3:1
+   - #FFF sur #080808 = 20.6:1 ✓
+   - rgba(255,255,255,0.72) sur #080808 = ~4.7:1 ✓ (minimum AA)
+   - rgba(255,255,255,0.45) = ~3:1 (grand texte uniquement)      */
+
+/* ── Sélection ──────────────────────────────────────────────────── */
+::selection {
+  background: var(--white);
+  color: var(--bg);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(240,240,240,0.15); }
+
+/* ── Liens — underline visible par défaut (W3C WCAG 1.4.1) ──── */
+a { color: inherit; }
+a:not([class]) { text-decoration: underline; }
+
+/* ── Typographie accessible ────────────────────────────────────── */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* Texte lisible — W3C : espacement ligne ≥ 1.5× la taille */
+p { line-height: 1.7; }
+
+/* ── Grain décoratif ────────────────────────────────────────────── */
+.grain {
+  position: fixed; inset: 0; z-index: 9990;
+  pointer-events: none; opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Curseur custom ─────────────────────────────────────────────── */
+html { cursor: none; }
+@media (hover: none) { html { cursor: auto; } }
+
+/* ── Utilitaires ────────────────────────────────────────────────── */
+
+/* Classe pour cacher visuellement mais garder pour les lecteurs d'écran */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Affiche .sr-only quand focusé (pour les liens d'évitement) */
+.sr-only:focus,
+.sr-only:focus-within {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: revert !important;
+  margin: revert !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+}
+
+/* ── Icônes SVG — taille minimale 24×24px (W3C WCAG 2.5.5) ──── */
+svg { min-width: 24px; min-height: 24px; }
+svg[aria-hidden="true"] { min-width: unset; min-height: unset; }
+
+/* ── Boutons — taille tactile minimale 44×44px (W3C) ────────── */
+button, [role="button"] { min-width: 44px; min-height: 44px; }
+
+/* ── Images ─────────────────────────────────────────────────────── */
+img {
+  max-width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Les images décoratives doivent avoir alt="" */
+
+/* ── Formulaires ────────────────────────────────────────────────── */
+input, textarea, select {
+  font-family: inherit;
+  font-size: 1rem; /* jamais sous 16px pour éviter le zoom iOS */
+}
+
+/* ── High contrast mode ─────────────────────────────────────────── */
+@media (forced-colors: active) {
+  :root {
+    --bg: Canvas;
+    --paper: CanvasText;
+    --white: CanvasText;
+  }
+  .grain { display: none; }
+}

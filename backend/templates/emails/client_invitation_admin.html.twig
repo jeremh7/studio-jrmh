@@ -1,0 +1,26 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block subject %}[Admin] Invitation envoyée — {{ client.fullName }}{% endblock %}
+{% block header_title %}Invitation client envoyée{% endblock %}
+
+{% block content %}
+<p style="margin:0 0 20px;font-size:15px;color:#333333;line-height:1.7;">
+    Une invitation a été envoyée au client <strong>{{ client.fullName }}</strong>.
+</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;margin-bottom:20px;">
+    <tr>
+        <td style="padding:6px 0;font-size:13px;color:#888888;width:120px;">Email</td>
+        <td style="padding:6px 0;font-size:13px;color:#333333;">{{ client.email }}</td>
+    </tr>
+    {% if client.phone %}
+    <tr>
+        <td style="padding:6px 0;font-size:13px;color:#888888;">Téléphone</td>
+        <td style="padding:6px 0;font-size:13px;color:#333333;">{{ client.phone }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td style="padding:6px 0;font-size:13px;color:#888888;">Lien valide jusqu'au</td>
+        <td style="padding:6px 0;font-size:13px;color:#333333;">{{ expiresAt|date('d/m/Y à H:i') }}</td>
+    </tr>
+</table>
+{% endblock %}

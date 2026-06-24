@@ -1,0 +1,57 @@
+parameters:
+    upload_dir:       '%env(resolve:UPLOAD_DIR)%'
+    private_dir:      '%env(resolve:PRIVATE_DIR)%'
+    frontend_url:     '%env(FRONTEND_URL)%'
+    mailer_from:        '%env(MAILER_FROM)%'
+    mailer_from_name:   '%env(MAILER_FROM_NAME)%'
+    admin_email:        '%env(ADMIN_EMAIL)%'
+    mailer_redirect_to: '%env(string:default::MAILER_REDIRECT_TO)%'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Service\ImageService:
+        arguments:
+            $uploadDir:  '%upload_dir%'
+            $privateDir: '%private_dir%'
+
+    App\Service\GalleryService:
+        arguments:
+            $uploadDir: '%upload_dir%'
+
+    App\Service\ProjectService:
+        arguments:
+            $uploadDir: '%upload_dir%'
+
+    App\Service\NotificationService:
+        arguments:
+            $adminEmail:       '%admin_email%'
+            $mailerFrom:       '%mailer_from%'
+            $mailerFromName:   '%mailer_from_name%'
+            $frontendUrl:      '%frontend_url%'
+            $mailerRedirectTo: '%mailer_redirect_to%'
+
+    App\Controller\Admin\ProjectController:
+        arguments:
+            $frontendUrl: '%frontend_url%'
+
+    App\Controller\Api\GalleryController:
+        arguments:
+            $uploadDir:  '%upload_dir%'
+            $privateDir: '%private_dir%'
+
+    # AuthController utilise NotificationService — pas besoin de params directs
+
+    App\Command\TestMailCommand:
+        arguments:
+            $mailerFrom:     '%mailer_from%'
+            $mailerFromName: '%mailer_from_name%'

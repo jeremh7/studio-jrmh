@@ -1,0 +1,61 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Clients{% endblock %}
+{% block page_title %}CLIENTS{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-header-title">CLIENTS</div>
+        <div class="page-header-sub">// {{ clients|length }} client{{ clients|length > 1 ? 's' : '' }}</div>
+    </div>
+    <div class="flex-gap">
+        <form method="get" class="flex-gap">
+            <input name="q" value="{{ search }}" class="form-control"
+                   style="width:220px;padding:8px 12px;font-size:12px" placeholder="Nom, email...">
+            <button class="btn btn-ghost btn-sm">Chercher</button>
+        </form>
+        <a href="{{ path('admin_clients_new') }}" class="btn btn-primary">+ Nouveau client</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>Galeries</th>
+                    <th>Depuis</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for c in clients %}
+            <tr>
+                <td>
+                    <a href="{{ path('admin_clients_show', {id: c.id}) }}" class="text-white" style="font-weight:500">
+                        {{ c.fullName }}
+                    </a>
+                </td>
+                <td class="text-muted">{{ c.email }}</td>
+                <td class="text-muted">{{ c.phone ?? '—' }}</td>
+                <td class="mono text-muted" style="font-size:12px">{{ c.galleries|length }}</td>
+                <td class="text-muted" style="font-size:12px">{{ c.createdAt|date('d/m/Y') }}</td>
+                <td>
+                    <a href="{{ path('admin_clients_show', {id: c.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-muted" style="text-align:center;padding:48px">
+                    Aucun client.
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

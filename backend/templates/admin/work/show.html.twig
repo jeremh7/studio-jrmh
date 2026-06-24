@@ -1,0 +1,287 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ project.title }}{% endblock %}
+{% block page_title %}PROJET{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_work_index') }}" class="back-link">← Work</a>
+
+<div class="page-header">
+    <div>
+        <div class="page-header-title">{{ project.title|upper }}</div>
+        <div class="page-header-sub" style="margin-top:8px;display:flex;align-items:center;gap:10px">
+            <span class="badge badge-draft">{{ project.categoryLabel }}</span>
+            <span class="badge badge-{{ project.status }}">{{ project.status }}</span>
+            <span id="photo-count-label" style="font-family:var(--font-mono);font-size:10px;color:var(--muted)">{{ project.photoCount }} photo{{ project.photoCount > 1 ? 's' : '' }}</span>
+            {% if project.featured %}<span style="color:var(--warning);font-size:11px">★ Mis en avant</span>{% endif %}
+        </div>
+    </div>
+    <div class="flex-gap">
+        {% if project.status == 'published' %}
+        <a href="{{ frontendUrl }}/work/{{ project.slug }}" target="_blank" class="btn btn-ghost">↗ Aperçu</a>
+        {% endif %}
+        <a href="{{ path('admin_work_edit', {id: project.id}) }}" class="btn btn-ghost">Éditer</a>
+        {% if project.status == 'draft' %}
+        <form method="post" action="{{ path('admin_work_publish', {id: project.id}) }}" style="display:inline">
+            <button class="btn btn-success">▶ Publier</button>
+        </form>
+        {% else %}
+        <form method="post" action="{{ path('admin_work_unpublish', {id: project.id}) }}" style="display:inline">
+            <button class="btn btn-ghost">⏸ Dépublier</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<div class="grid-2" style="align-items:start;gap:20px">
+
+    {# ── Colonne gauche : infos + cover ── #}
+    <div style="display:flex;flex-direction:column;gap:20px">
+
+        <div class="card">
+            <div class="card-head"><span class="card-head-title">INFORMATIONS</span></div>
+            <div class="card-body">
+                {% if project.eventDate %}
+                <div class="info-row">
+                    <span class="info-row-label">Date</span>
+                    <span class="info-row-value">{{ project.eventDate|date('d F Y') }}</span>
+                </div>
+                {% endif %}
+                {% if project.location %}
+                <div class="info-row">
+                    <span class="info-row-label">Lieu</span>
+                    <span class="info-row-value">{{ project.location }}</span>
+                </div>
+                {% endif %}
+                {% if project.description %}
+                <div class="info-row">
+                    <span class="info-row-label">Description</span>
+                    <span class="info-row-value" style="color:rgba(240,240,240,0.5);font-size:12px;line-height:1.7">{{ project.description }}</span>
+                </div>
+                {% endif %}
+                <div class="info-row" style="margin-bottom:0">
+                    <span class="info-row-label">URL</span>
+                    <span class="info-row-value mono" style="font-size:10px;color:rgba(240,240,240,0.4)">/work/{{ project.slug }}</span>
+                </div>
+            </div>
+        </div>
+
+        {# Cover #}
+        <div class="card">
+            <div class="card-head"><span class="card-head-title">COVER</span></div>
+            <div id="cover-container" style="position:relative;overflow:hidden">
+                {% if project.coverImageUrl %}
+                <img id="cover-img" src="{{ project.coverImageUrl }}"
+                     style="width:100%;max-height:320px;object-fit:cover;display:block;transition:opacity 0.3s" alt="Cover">
+                <div style="padding:10px 16px;font-family:var(--font-mono);font-size:9px;color:var(--muted);letter-spacing:0.08em">
+                    Cliquez ↑ Cover sur une photo pour changer
+                </div>
+                {% else %}
+                <div id="cover-empty" style="height:160px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px">
+                    <span style="font-family:var(--font-display);font-size:32px;color:rgba(240,240,240,0.05)">COVER</span>
+                    <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--muted)">Uploadez des photos pour définir une cover</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    {# ── Colonne droite : upload + grille ── #}
+    <div style="display:flex;flex-direction:column;gap:20px">
+
+        {# Zone upload #}
+        <div class="card">
+            <div class="card-head">
+                <span class="card-head-title">PHOTOS</span>
+                <span style="font-family:var(--font-mono);font-size:9px;color:var(--muted)">JPG, PNG, WEBP — max 60 MB</span>
+            </div>
+            <div class="card-body">
+                <div class="upload-zone" id="upload-zone">
+                    <input type="file" id="file-input" multiple accept="image/*" style="display:none">
+                    <div class="upload-icon">↑</div>
+                    <div class="upload-label">Glissez vos photos ici</div>
+                    <div class="upload-sub">ou cliquez pour sélectionner</div>
+                </div>
+                <div id="upload-progress" style="display:none;margin-top:14px">
+                    <div style="height:2px;background:var(--faint);margin-bottom:10px;overflow:hidden">
+                        <div id="upload-bar" style="height:100%;width:0%;background:var(--gold);transition:width 0.4s ease"></div>
+                    </div>
+                    <div id="upload-status" style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;color:var(--muted)"></div>
+                </div>
+            </div>
+        </div>
+
+        {# Grille photos #}
+        <div class="card">
+            <div class="card-body">
+                <div class="photo-grid" id="photo-grid">
+                    {% for photo in project.photos %}
+                    <div class="photo-item" data-id="{{ photo.id }}">
+                        <img src="{{ photo.publicUrl }}" alt="{{ photo.originalFilename }}"
+                             style="width:100%;height:100%;object-fit:cover;display:block">
+                        {% if photo.cover %}
+                        <div class="cover-badge" style="position:absolute;top:5px;left:5px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:7px;padding:2px 7px;letter-spacing:.12em;z-index:2;text-transform:uppercase">COVER</div>
+                        {% endif %}
+                        <div class="photo-overlay">
+                            <div style="width:100%;display:flex;gap:4px">
+                                <button class="btn btn-ghost btn-sm" style="flex:1"
+                                        onclick="setCover({{ photo.id }}, this)">↑ Cover</button>
+                                <button class="btn btn-danger btn-sm" style="flex:1"
+                                        onclick="deletePhoto({{ photo.id }}, this.closest('.photo-item'))">✕</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div id="empty-placeholder" class="text-muted" style="grid-column:span 3;text-align:center;padding:40px;font-size:12px">
+                        Aucune photo. Uploadez ci-dessus.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const zone     = document.getElementById('upload-zone');
+const input    = document.getElementById('file-input');
+const progress = document.getElementById('upload-progress');
+const bar      = document.getElementById('upload-bar');
+const statusEl = document.getElementById('upload-status');
+const grid     = document.getElementById('photo-grid');
+
+zone.addEventListener('click', () => input.click());
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); upload(e.dataTransfer.files); });
+input.addEventListener('change', () => upload(input.files));
+
+async function upload(files) {
+    if (!files.length) return;
+    progress.style.display = 'block';
+    bar.style.width = '0%';
+    statusEl.style.color = 'var(--muted)';
+    statusEl.textContent = `Upload de ${files.length} fichier(s)…`;
+
+    // Simulation progression
+    let pct = 0;
+    const ticker = setInterval(() => { pct = Math.min(pct + 8, 88); bar.style.width = pct + '%'; }, 120);
+
+    const fd = new FormData();
+    for (const f of files) fd.append('photos[]', f);
+
+    try {
+        const r = await fetch('{{ path('admin_work_upload', {id: project.id}) }}', { method: 'POST', body: fd });
+        const d = await r.json();
+
+        clearInterval(ticker);
+        bar.style.width = '100%';
+
+        if (d.errors?.length) {
+            statusEl.style.color = 'var(--warning)';
+            statusEl.textContent = `${d.uploaded.length} uploadé(s) — ${d.errors.length} erreur(s)`;
+        } else {
+            statusEl.style.color = 'var(--success)';
+            statusEl.textContent = `✓ ${d.uploaded.length} photo(s) ajoutée(s)`;
+        }
+
+        // Mise à jour compteur
+        const total = grid.querySelectorAll('.photo-item').length + d.uploaded.length;
+        const lbl = document.getElementById('photo-count-label');
+        if (lbl) lbl.textContent = total + ' photo' + (total > 1 ? 's' : '');
+
+        const placeholder = document.getElementById('empty-placeholder');
+        if (placeholder) placeholder.remove();
+
+        d.uploaded.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'photo-item';
+            div.dataset.id = p.id;
+            div.style.opacity = '0';
+            div.style.transition = 'opacity 0.3s';
+            div.innerHTML = `
+                <img src="${p.url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block">
+                <div class="photo-overlay">
+                    <div style="width:100%;display:flex;gap:4px">
+                        <button class="btn btn-ghost btn-sm" style="flex:1" onclick="setCover(${p.id}, this)">↑ Cover</button>
+                        <button class="btn btn-danger btn-sm" style="flex:1" onclick="deletePhoto(${p.id}, this.closest('.photo-item'))">✕</button>
+                    </div>
+                </div>`;
+            grid.appendChild(div);
+            requestAnimationFrame(() => { div.style.opacity = '1'; });
+        });
+
+        // Si pas encore de cover, auto-set la première photo uploadée
+        if (d.uploaded.length && !document.querySelector('.cover-badge') && d.uploaded[0].id) {
+            setCover(d.uploaded[0].id, null);
+        }
+
+        setTimeout(() => { bar.style.width = '0%'; progress.style.display = 'none'; }, 2500);
+
+    } catch {
+        clearInterval(ticker);
+        statusEl.style.color = 'var(--danger)';
+        statusEl.textContent = 'Erreur lors de l\'upload.';
+    }
+}
+
+async function setCover(photoId, btn) {
+    if (btn) { btn.disabled = true; btn.textContent = '…'; }
+    try {
+        const r = await fetch(`/admin/work/photos/${photoId}/cover`, { method: 'POST' });
+        if (!r.ok) throw new Error();
+
+        // Retire tous les anciens badges COVER
+        document.querySelectorAll('.cover-badge').forEach(b => b.remove());
+
+        // Ajoute le badge sur la photo sélectionnée
+        const item = document.querySelector(`.photo-item[data-id="${photoId}"]`);
+        if (item) {
+            const badge = document.createElement('div');
+            badge.className = 'cover-badge';
+            badge.textContent = 'COVER';
+            badge.style.cssText = 'position:absolute;top:5px;left:5px;background:var(--gold);color:var(--bg);font-family:var(--font-mono);font-size:7px;padding:2px 7px;letter-spacing:.12em;z-index:2;text-transform:uppercase';
+            item.appendChild(badge);
+
+            // Met à jour l'aperçu cover
+            const img = item.querySelector('img');
+            const coverImg = document.getElementById('cover-img');
+            const coverEmpty = document.getElementById('cover-empty');
+
+            if (img) {
+                if (coverImg) {
+                    coverImg.style.opacity = '0';
+                    setTimeout(() => { coverImg.src = img.src; coverImg.style.opacity = '1'; }, 300);
+                } else if (coverEmpty) {
+                    coverEmpty.outerHTML = `<img id="cover-img" src="${img.src}" style="width:100%;max-height:320px;object-fit:cover;display:block;transition:opacity 0.3s" alt="Cover">`;
+                }
+            }
+        }
+    } catch { /* silencieux */ }
+    finally {
+        if (btn) { btn.disabled = false; btn.textContent = '↑ Cover'; }
+    }
+}
+
+async function deletePhoto(id, el) {
+    showDeleteModal('SUPPRIMER LA PHOTO', 'Cette photo sera définitivement supprimée du projet.', async () => {
+        const r = await fetch(`/admin/work/photos/${id}/delete`, { method: 'POST' });
+        const d = await r.json();
+        if (d.ok) {
+            el.style.transition = 'opacity 0.25s, transform 0.25s';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                el.remove();
+                const remaining = grid.querySelectorAll('.photo-item').length;
+                const lbl = document.getElementById('photo-count-label');
+                if (lbl) lbl.textContent = remaining + ' photo' + (remaining > 1 ? 's' : '');
+            }, 260);
+        }
+    });
+}
+</script>
+{% endblock %}

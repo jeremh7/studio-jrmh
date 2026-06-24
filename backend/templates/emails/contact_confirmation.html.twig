@@ -1,0 +1,47 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block subject %}Message bien reçu — Studiø JRMH{% endblock %}
+{% block header_title %}Message reçu{% endblock %}
+
+{% block content %}
+    <h2 style="margin:0 0 20px;font-size:22px;font-weight:300;color:#0a0a0a;">
+        Bonjour {{ senderName }}&nbsp;,
+    </h2>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:#555555;">
+        Votre message a bien été reçu. Je vous répondrai dans les meilleurs délais.
+    </p>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="background-color:#f8f6f3;border-left:3px solid #0a0a0a;margin:0 0 28px;">
+        <tr>
+            <td style="padding:20px 24px;">
+                {% if subject %}
+                <p style="margin:0 0 10px;font-size:14px;color:#333333;">
+                    <strong>Sujet :</strong> {{ subject }}
+                </p>
+                {% endif %}
+                <p style="margin:0 0 8px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;color:#999999;">
+                    Votre message
+                </p>
+                <p style="margin:0;font-size:14px;color:#555555;line-height:1.7;white-space:pre-wrap;">{{ message }}</p>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin:0;font-size:14px;line-height:1.7;color:#777777;">
+        En attendant, n'hésitez pas à consulter mon portfolio.
+    </p>
+{% endblock %}
+
+{% block cta %}
+    <tr>
+        <td style="padding:0 40px 36px;text-align:center;">
+            <a href="{{ portfolioUrl }}"
+               style="display:inline-block;padding:14px 36px;background-color:#0a0a0a;color:#ffffff;
+                      text-decoration:none;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;
+                      border-radius:2px;">
+                Voir le portfolio
+            </a>
+        </td>
+    </tr>
+{% endblock %}

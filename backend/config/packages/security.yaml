@@ -1,0 +1,74 @@
+security:
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        # Hashers explicites par entité pour plus de clarté
+        App\Entity\User:   { algorithm: auto }
+        App\Entity\Client: { algorithm: auto }
+
+    providers:
+        # Provider pour les admins (User entity)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+        # Provider pour les clients (Client entity)
+        app_client_provider:
+            entity:
+                class: App\Entity\Client
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # ── API Client — JWT stateless ─────────────────────────────
+        api_auth:
+            # Routes publiques d'auth : login, register, reset-password
+            pattern: ^/api/auth
+            stateless: true
+            security: false
+
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_client_provider
+            jwt: ~
+
+        # ── Admin — Sessions + form_login ─────────────────────────
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: app_user_provider
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                enable_csrf: true
+                default_target_path: admin_dashboard
+                username_parameter: _username
+                password_parameter: _password
+            logout:
+                path: admin_logout
+                target: admin_login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /admin
+
+    access_control:
+        # Admin
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin,       roles: ROLE_ADMIN }
+
+        # API Auth — publique (login, register, verify-email, reset-password…)
+        - { path: ^/api/auth,    roles: PUBLIC_ACCESS }
+
+        # API Client dashboard — JWT requis (ROLE_CLIENT)
+        - { path: ^/api/client,  roles: ROLE_CLIENT }
+
+        # API Galleries — JWT requis
+        - { path: ^/api/galleries, roles: ROLE_CLIENT }
+
+        # Reste de l'API publique (works, etc.)
+        - { path: ^/api,         roles: PUBLIC_ACCESS }

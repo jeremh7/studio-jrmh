@@ -1,0 +1,182 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}DASHBOARD{% endblock %}
+
+{% block content %}
+
+<!-- Stats -->
+<div class="stats-grid mb-8" style="grid-template-columns:repeat(6,1fr)">
+    <div class="stat-card">
+        <div class="stat-label">Galeries</div>
+        <div class="stat-num">{{ stats.galleries }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Actives</div>
+        <div class="stat-num green">{{ stats.active_galleries }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Clients</div>
+        <div class="stat-num">{{ stats.clients }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Photos</div>
+        <div class="stat-num">{{ stats.photos }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Messages</div>
+        <a href="{{ path('admin_contact_index') }}" style="text-decoration:none">
+            <div class="stat-num">{{ stats.messages }}</div>
+        </a>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Non lus</div>
+        <a href="{{ path('admin_contact_index', {filter:'unread'}) }}" style="text-decoration:none">
+            <div class="stat-num {{ stats.unread_messages > 0 ? 'warning' : '' }}"
+                 style="{{ stats.unread_messages > 0 ? 'color:var(--warning)' : '' }}">
+                {{ stats.unread_messages }}
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="grid-2 mb-6">
+
+    <!-- Galeries récentes -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-head-title">GALERIES RÉCENTES</span>
+            <a href="{{ path('admin_galleries_new') }}" class="btn btn-primary btn-sm">+ Nouvelle</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Client</th>
+                        <th>Statut</th>
+                        <th>Photos</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for g in recentGalleries %}
+                <tr>
+                    <td>
+                        <a href="{{ path('admin_galleries_show', {id: g.id}) }}" class="text-white" style="font-weight:500">
+                            {{ g.title }}
+                        </a>
+                    </td>
+                    <td class="text-muted">{{ g.client.fullName }}</td>
+                    <td><span class="badge badge-{{ g.status }}">{{ g.status }}</span></td>
+                    <td class="mono" style="font-size:12px">{{ g.photoCount }}</td>
+                    <td>
+                        <a href="{{ path('admin_galleries_show', {id: g.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-muted" style="text-align:center;padding:32px">Aucune galerie.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Clients récents -->
+    <div class="card">
+        <div class="card-head">
+            <span class="card-head-title">CLIENTS RÉCENTS</span>
+            <a href="{{ path('admin_clients_new') }}" class="btn btn-primary btn-sm">+ Nouveau</a>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Galeries</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for c in recentClients %}
+                <tr>
+                    <td>
+                        <a href="{{ path('admin_clients_show', {id: c.id}) }}" class="text-white" style="font-weight:500">
+                            {{ c.fullName }}
+                        </a>
+                    </td>
+                    <td class="text-muted">{{ c.email }}</td>
+                    <td class="mono" style="font-size:12px">{{ c.galleries|length }}</td>
+                    <td>
+                        <a href="{{ path('admin_clients_show', {id: c.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-muted" style="text-align:center;padding:32px">Aucun client.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!-- Messages récents -->
+<div class="card">
+    <div class="card-head">
+        <span class="card-head-title">
+            MESSAGES RÉCENTS
+            {% if stats.unread_messages > 0 %}
+                <span class="badge badge-warning" style="margin-left:10px;vertical-align:middle">{{ stats.unread_messages }} non lu{{ stats.unread_messages > 1 ? 's' : '' }}</span>
+            {% endif %}
+        </span>
+        <a href="{{ path('admin_contact_index') }}" class="btn btn-ghost btn-sm">Voir tout →</a>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:14px"></th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for msg in recentMessages %}
+            <tr style="{{ not msg.isRead ? 'background:rgba(255,179,71,0.03)' : '' }}">
+                <td style="text-align:center">
+                    {% if not msg.isRead %}
+                        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--warning)" title="Non lu"></span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('admin_contact_show', {id: msg.id}) }}"
+                       style="{{ not msg.isRead ? 'color:var(--white);font-weight:500' : '' }}">
+                        {{ msg.name }}
+                    </a>
+                </td>
+                <td class="text-muted" style="font-size:12px">{{ msg.email }}</td>
+                <td class="text-muted" style="font-size:12px">{{ msg.subject ?? '—' }}</td>
+                <td class="text-muted mono" style="font-size:11px;white-space:nowrap">{{ msg.createdAt|date('d/m/Y H:i') }}</td>
+                <td>
+                    <a href="{{ path('admin_contact_show', {id: msg.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="text-muted" style="text-align:center;padding:32px">Aucun message.</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

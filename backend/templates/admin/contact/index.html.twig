@@ -1,0 +1,98 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Contact{% endblock %}
+{% block page_title %}CONTACT{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-header-title">MESSAGES</div>
+        <div class="page-header-sub">
+            // {{ messages|length }} message{{ messages|length > 1 ? 's' : '' }}
+            {% if unread > 0 %}
+                — <span style="color:var(--warning)">{{ unread }} non lu{{ unread > 1 ? 's' : '' }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="flex-gap">
+        <form method="get" class="flex-gap" style="gap:8px">
+            <input type="hidden" name="filter" value="{{ filter }}">
+            <input name="q" value="{{ search }}" class="form-control"
+                   style="width:200px;padding:8px 12px;font-size:12px" placeholder="Nom, email, message…">
+            <button class="btn btn-ghost btn-sm">Chercher</button>
+        </form>
+    </div>
+</div>
+
+{# Filtres #}
+<div class="flex-gap mb-6" style="gap:6px">
+    <a href="{{ path('admin_contact_index') }}"
+       class="btn btn-sm {{ filter == 'all' ? 'btn-primary' : 'btn-ghost' }}">
+        Tous
+    </a>
+    <a href="{{ path('admin_contact_index', {filter: 'unread'}) }}"
+       class="btn btn-sm {{ filter == 'unread' ? 'btn-primary' : 'btn-ghost' }}"
+       style="{{ filter != 'unread' and unread > 0 ? 'color:var(--warning);border-color:rgba(255,179,71,0.4)' : '' }}">
+        Non lus {% if unread > 0 %}({{ unread }}){% endif %}
+    </a>
+    <a href="{{ path('admin_contact_index', {filter: 'read'}) }}"
+       class="btn btn-sm {{ filter == 'read' ? 'btn-primary' : 'btn-ghost' }}">
+        Lus
+    </a>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:14px"></th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Sujet</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for msg in messages %}
+            <tr style="{{ not msg.isRead ? 'background:rgba(255,179,71,0.03)' : '' }}">
+                <td style="text-align:center">
+                    {% if not msg.isRead %}
+                        <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--warning);flex-shrink:0" title="Non lu"></span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('admin_contact_show', {id: msg.id}) }}"
+                       style="{{ not msg.isRead ? 'color:var(--white);font-weight:500' : '' }}">
+                        {{ msg.name }}
+                    </a>
+                </td>
+                <td class="text-muted" style="font-size:12px">{{ msg.email }}</td>
+                <td class="text-muted" style="font-size:12px">{{ msg.subject ?? '—' }}</td>
+                <td class="text-muted" style="font-size:12px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                    {{ msg.message|slice(0, 80) }}{% if msg.message|length > 80 %}…{% endif %}
+                </td>
+                <td class="text-muted mono" style="font-size:11px;white-space:nowrap">
+                    {{ msg.createdAt|date('d/m/Y H:i') }}
+                </td>
+                <td>
+                    <a href="{{ path('admin_contact_show', {id: msg.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" class="text-muted" style="text-align:center;padding:64px">
+                    {% if search %}
+                        Aucun résultat pour « {{ search }} »
+                    {% else %}
+                        Aucun message pour l'instant.
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

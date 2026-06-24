@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Éditer — {{ client.fullName }}{% endblock %}
+{% block page_title %}ÉDITER{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_clients_show', {id: client.id}) }}" class="back-link">← Retour</a>
+<div style="max-width:540px">
+    <div class="page-header">
+        <div>
+            <div class="page-header-title">ÉDITER</div>
+            <div class="page-header-sub">// {{ client.fullName }}</div>
+        </div>
+    </div>
+    <div class="card"><div class="card-body">
+        <form method="post" id="edit-client-form">
+            <div class="form-row">
+                <div class="form-group"><label class="form-label">Prénom</label><input type="text" name="first_name" class="form-control" value="{{ client.firstName }}" required></div>
+                <div class="form-group"><label class="form-label">Nom</label><input type="text" name="last_name" class="form-control" value="{{ client.lastName }}" required></div>
+            </div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" name="email" class="form-control" value="{{ client.email }}" required></div>
+            <div class="form-group"><label class="form-label">Téléphone</label><input type="tel" name="phone" class="form-control" value="{{ client.phone }}"></div>
+            <div class="form-group"><label class="form-label">Notes</label><textarea name="notes" class="form-control">{{ client.notes }}</textarea></div>
+            <div class="sep"></div>
+            <div class="flex-between">
+                <button type="button" class="btn btn-danger btn-sm"
+                        onclick="showDeleteModal('SUPPRIMER LE CLIENT', 'Toutes les galeries et photos associées seront définitivement supprimées. Cette action est irréversible.', () => document.getElementById('delete-client-form').submit())">
+                    Supprimer
+                </button>
+                <div class="flex-gap">
+                    <a href="{{ path('admin_clients_show', {id: client.id}) }}" class="btn btn-ghost">Annuler</a>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </form>
+    </div></div>
+</div>
+
+<form id="delete-client-form" method="post" action="{{ path('admin_clients_delete', {id: client.id}) }}" style="display:none"></form>
+
+{% endblock %}

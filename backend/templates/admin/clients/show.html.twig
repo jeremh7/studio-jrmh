@@ -1,0 +1,107 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}{{ client.fullName }}{% endblock %}
+{% block page_title %}CLIENT{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_clients_index') }}" class="back-link">← Clients</a>
+
+<div class="page-header">
+    <div>
+        <div class="page-header-title">{{ client.fullName|upper }}</div>
+        <div class="page-header-sub">// {{ client.email }}</div>
+    </div>
+    <div class="flex-gap">
+        <a href="{{ path('admin_clients_edit', {id: client.id}) }}" class="btn btn-ghost">Éditer</a>
+        <a href="{{ path('admin_galleries_new') }}" class="btn btn-primary">+ Galerie</a>
+    </div>
+</div>
+
+{# ── Bandeau invitation en attente ─────────────────────────── #}
+{% if client.accountStatus == 'pending_verification' and client.passwordSetToken %}
+<div style="background:rgba(255,179,71,0.08);border:0.5px solid rgba(255,179,71,0.3);padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div>
+        <p style="font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#FFB347;margin:0 0 4px">// Invitation en attente</p>
+        <p style="font-size:13px;color:rgba(240,240,240,0.6);margin:0">
+            Le client n'a pas encore créé son mot de passe.
+            {% if client.passwordSetTokenExpiresAt %}
+                Lien valide jusqu'au {{ client.passwordSetTokenExpiresAt|date('d/m/Y à H:i') }}.
+            {% endif %}
+        </p>
+    </div>
+    <form method="POST" action="{{ path('admin_clients_resend_invitation', {id: client.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('resend_invitation_' ~ client.id) }}">
+        <button type="submit" class="btn btn-warning" style="white-space:nowrap">↺ Renvoyer l'invitation</button>
+    </form>
+</div>
+{% endif %}
+
+<div class="grid-2" style="align-items:start">
+    <div class="card">
+        <div class="card-head"><span class="card-head-title">INFOS</span></div>
+        <div class="card-body">
+            <div class="info-row">
+                <span class="info-row-label">Email</span>
+                <span class="info-row-value">{{ client.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row-label">Téléphone</span>
+                <span class="info-row-value">{{ client.phone ?? '—' }}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-row-label">Statut</span>
+                <span class="info-row-value">
+                    {% if client.accountStatus == 'pending_verification' %}
+                        <span class="badge badge-warning">En attente</span>
+                    {% elseif client.accountStatus == 'active' %}
+                        <span class="badge badge-active">Actif</span>
+                    {% else %}
+                        <span class="badge">{{ client.accountStatus }}</span>
+                    {% endif %}
+                </span>
+            </div>
+            <div class="info-row">
+                <span class="info-row-label">Client depuis</span>
+                <span class="info-row-value">{{ client.createdAt|date('d F Y') }}</span>
+            </div>
+            {% if client.lastLoginAt %}
+            <div class="info-row">
+                <span class="info-row-label">Dernière connexion</span>
+                <span class="info-row-value">{{ client.lastLoginAt|date('d/m/Y à H:i') }}</span>
+            </div>
+            {% endif %}
+            {% if client.notes %}
+            <div class="info-row">
+                <span class="info-row-label">Notes</span>
+                <span class="info-row-value" style="color:rgba(240,240,240,0.5);font-size:13px">{{ client.notes }}</span>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <span class="card-head-title">GALERIES ({{ client.galleries|length }})</span>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Titre</th><th>Code</th><th>Statut</th><th>Photos</th><th></th></tr>
+                </thead>
+                <tbody>
+                {% for g in client.galleries %}
+                <tr>
+                    <td class="text-white">{{ g.title }}</td>
+                    <td class="mono text-white" style="font-size:11px;letter-spacing:.2em">{{ g.accessCode }}</td>
+                    <td><span class="badge badge-{{ g.status }}">{{ g.status }}</span></td>
+                    <td class="mono text-muted" style="font-size:12px">{{ g.photoCount }}</td>
+                    <td><a href="{{ path('admin_galleries_show', {id: g.id}) }}" class="btn btn-ghost btn-sm">→</a></td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5" class="text-muted" style="text-align:center;padding:24px">Aucune galerie.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

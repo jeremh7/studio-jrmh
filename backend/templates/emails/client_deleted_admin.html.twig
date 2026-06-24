@@ -1,0 +1,28 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block subject %}[Admin] Client supprimé — {{ clientName }}{% endblock %}
+{% block header_title %}Client supprimé{% endblock %}
+
+{% block content %}
+    <h2 style="margin:0 0 20px;font-size:20px;font-weight:300;color:#0a0a0a;">
+        Un client a été supprimé.
+    </h2>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="background-color:#f8f6f3;border-left:3px solid #0a0a0a;margin:0 0 24px;">
+        <tr>
+            <td style="padding:20px 24px;">
+                <p style="margin:0 0 6px;font-size:14px;color:#333333;">
+                    <strong>Nom :</strong> {{ clientName }}
+                </p>
+                <p style="margin:0;font-size:14px;color:#333333;">
+                    <strong>Email :</strong> {{ clientEmail }}
+                </p>
+            </td>
+        </tr>
+    </table>
+
+    <p style="margin:0;font-size:14px;color:#777777;">
+        Toutes les données associées à ce client ont été supprimées.
+    </p>
+{% endblock %}

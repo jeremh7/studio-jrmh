@@ -1,0 +1,76 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Galeries{% endblock %}
+{% block page_title %}GALERIES{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <div class="page-header-title">GALERIES</div>
+        <div class="page-header-sub">// {{ galleries|length }} entrée{{ galleries|length > 1 ? 's' : '' }}</div>
+    </div>
+    <div class="flex-gap">
+        <form method="get" class="flex-gap">
+            <input name="q" value="{{ search }}" class="form-control" style="width:200px;padding:8px 12px;font-size:12px" placeholder="Rechercher...">
+            <select name="status" class="form-control" style="width:130px;padding:8px 12px;font-size:12px" onchange="this.form.submit()">
+                <option value="">Tous statuts</option>
+                <option value="draft"    {% if status == 'draft'    %}selected{% endif %}>Brouillon</option>
+                <option value="active"   {% if status == 'active'   %}selected{% endif %}>Actif</option>
+                <option value="expired"  {% if status == 'expired'  %}selected{% endif %}>Expiré</option>
+                <option value="archived" {% if status == 'archived' %}selected{% endif %}>Archivé</option>
+            </select>
+        </form>
+        <a href="{{ path('admin_galleries_new') }}" class="btn btn-primary">+ Nouvelle galerie</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Client</th>
+                    <th>Code</th>
+                    <th>Statut</th>
+                    <th>Photos</th>
+                    <th>Vues</th>
+                    <th>Expiration</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for g in galleries %}
+            <tr>
+                <td>
+                    <a href="{{ path('admin_galleries_show', {id: g.id}) }}" class="text-white" style="font-weight:500">
+                        {{ g.title }}
+                    </a>
+                </td>
+                <td class="text-muted">{{ g.client.fullName }}</td>
+                <td>
+                    <span class="mono text-white" style="letter-spacing:.2em;font-size:12px">
+                        {{ g.accessCode }}
+                    </span>
+                </td>
+                <td><span class="badge badge-{{ g.status }}">{{ g.status }}</span></td>
+                <td class="mono text-muted" style="font-size:12px">{{ g.photoCount }}</td>
+                <td class="mono text-muted" style="font-size:12px">{{ g.viewCount }}</td>
+                <td class="text-muted" style="font-size:12px">
+                    {{ g.expiresAt ? g.expiresAt|date('d/m/Y') : '—' }}
+                </td>
+                <td>
+                    <a href="{{ path('admin_galleries_show', {id: g.id}) }}" class="btn btn-ghost btn-sm">→</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" class="text-muted" style="text-align:center;padding:48px">
+                    Aucune galerie trouvée.
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

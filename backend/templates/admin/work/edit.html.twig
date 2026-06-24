@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+{% block title %}Éditer — {{ project.title }}{% endblock %}
+{% block page_title %}ÉDITER{% endblock %}
+
+{% block content %}
+<a href="{{ path('admin_work_show', {id: project.id}) }}" class="back-link">← Retour</a>
+<div style="max-width:660px">
+    <div class="page-header">
+        <div>
+            <div class="page-header-title">ÉDITER</div>
+            <div class="page-header-sub">// {{ project.title }}</div>
+        </div>
+    </div>
+    <div class="card"><div class="card-body">
+        <form method="post" id="edit-project-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Titre</label>
+                    <input type="text" name="title" class="form-control" value="{{ project.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Catégorie</label>
+                    <select name="category" class="form-control">
+                        {% for cat in categories %}
+                        <option value="{{ cat }}" {% if cat == project.category %}selected{% endif %}>{{ cat|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" name="event_date" class="form-control" value="{{ project.eventDate ? project.eventDate|date('Y-m-d') : '' }}">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Lieu</label>
+                    <input type="text" name="location" class="form-control" value="{{ project.location }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control">{{ project.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label class="form-check">
+                    <input type="checkbox" name="featured" value="1" {% if project.featured %}checked{% endif %}> Mis en avant
+                </label>
+            </div>
+            <div class="sep"></div>
+            <div class="flex-between">
+                <button type="button" class="btn btn-danger btn-sm"
+                        onclick="showDeleteModal('SUPPRIMER LE PROJET', 'Toutes les photos de ce projet seront définitivement supprimées du portfolio public.', () => document.getElementById('delete-project-form').submit())">
+                    Supprimer le projet
+                </button>
+                <div class="flex-gap">
+                    <a href="{{ path('admin_work_show', {id: project.id}) }}" class="btn btn-ghost">Annuler</a>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </div>
+            </div>
+        </form>
+    </div></div>
+</div>
+
+<form id="delete-project-form" method="post" action="{{ path('admin_work_delete', {id: project.id}) }}" style="display:none"></form>
+
+{% endblock %}
