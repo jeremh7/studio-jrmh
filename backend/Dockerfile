@@ -16,12 +16,10 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
-RUN APP_ENV=prod composer install --no-dev --optimize-autoloader --no-interaction
-
 COPY . .
 
-RUN mkdir -p var/uploads var/private config/jwt \
+RUN composer install --no-dev --optimize-autoloader --no-interaction \
+    && mkdir -p var/uploads var/private config/jwt \
     && APP_ENV=prod php bin/console lexik:jwt:generate-keypair --overwrite \
     && APP_ENV=prod php bin/console cache:warmup \
     && chmod -R 777 var/
