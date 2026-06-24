@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV APP_ENV=prod
+ENV APP_DEBUG=0
 
 WORKDIR /app
 
@@ -20,8 +22,8 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && mkdir -p var/uploads var/private config/jwt \
-    && APP_ENV=prod php bin/console lexik:jwt:generate-keypair --overwrite \
-    && APP_ENV=prod php bin/console cache:warmup \
+    && php bin/console lexik:jwt:generate-keypair --overwrite \
+    && php bin/console cache:warmup \
     && chmod -R 777 var/
 
 CMD php -S 0.0.0.0:${PORT:-8000} -t public/
