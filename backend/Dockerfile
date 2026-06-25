@@ -22,8 +22,7 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction \
     && composer dump-autoload --no-dev --optimize \
-    && mkdir -p var/uploads var/private config/jwt \
-    && php bin/console lexik:jwt:generate-keypair --overwrite \
+    && mkdir -p var/uploads var/private \
     && php bin/console cache:warmup \
     && chmod -R 777 var/
 
