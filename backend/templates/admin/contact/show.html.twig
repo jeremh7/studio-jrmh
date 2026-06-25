@@ -78,7 +78,8 @@
 
             <div class="sep"></div>
 
-            <a href="mailto:{{ contact.email }}?subject=Re: {{ contact.subject|default('Votre message')|url_encode }}"
+            <a href="https://mail.google.com/mail/?view=cm&to={{ contact.email|url_encode }}&su={{ ('Re: ' ~ contact.subject|default('Votre message'))|url_encode }}"
+               target="_blank" rel="noopener"
                class="btn btn-primary" style="width:100%;justify-content:center">
                 Répondre par email →
             </a>
