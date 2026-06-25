@@ -58,14 +58,21 @@ function SetPasswordContent() {
     startTransition(async () => {
       try {
         const { client } = await apiSetPassword(token, parsed.data.password)
-        setSuccess(true)
-        // Connexion automatique avec les credentials après création du mot de passe
-        await signIn('credentials', {
-          email:       client.email,
-          password:    parsed.data.password,
-          callbackUrl: '/client',
-          redirect:    true,
+
+        const result = await signIn('credentials', {
+          email:    client.email,
+          password: parsed.data.password,
+          redirect: false,
         })
+
+        if (result?.error) {
+          setServerError('Mot de passe créé mais connexion automatique échouée. Connectez-vous manuellement.')
+          setSuccess(true)
+          return
+        }
+
+        router.push('/client')
+        router.refresh()
       } catch (err) {
         setServerError(err instanceof Error ? err.message : 'Une erreur est survenue.')
       }

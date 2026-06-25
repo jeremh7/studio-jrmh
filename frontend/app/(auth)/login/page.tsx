@@ -57,7 +57,7 @@ function LoginPageContent() {
         redirect: false,
       })
 
-      if (result?.error) {
+      if (!result || result.error) {
         setServerError(t.loginPage.errorCredentials)
         setShaking(true)
         setTimeout(() => setShaking(false), 500)
