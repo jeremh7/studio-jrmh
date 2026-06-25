@@ -168,17 +168,56 @@
         .modal-body { padding: 24px; }
 
         /* ── Hamburger ─────────────────────────────── */
-        .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
-        .hamburger span { display: block; width: 20px; height: 1.5px; background: var(--paper); transition: all .2s; }
+        .hamburger {
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            gap: 5px; background: none; border: none; cursor: pointer;
+            padding: 6px; width: 44px; height: 44px;
+        }
+        .hamburger .bar { display: block; width: 22px; height: 1px; background: var(--paper); transform-origin: center; transition: transform .3s cubic-bezier(.23,1,.32,1), opacity .2s; }
+        .hamburger.is-open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .hamburger.is-open .bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        .hamburger.is-open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-        /* ── Overlay sidebar mobile ─────────────────── */
-        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(8,8,8,0.75); z-index: 99; backdrop-filter: blur(2px); }
-        .sidebar-overlay.open { display: block; }
+        /* ── Menu mobile plein écran ─────────────────── */
+        .mob-menu {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: var(--bg); flex-direction: column;
+            opacity: 0; transition: opacity .25s ease;
+        }
+        .mob-menu.open { display: flex; }
+        .mob-menu.visible { opacity: 1; }
+        .mob-topbar {
+            height: 56px; display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; border-bottom: 0.5px solid var(--border); flex-shrink: 0;
+        }
+        .mob-logo { font-family: var(--font-display); font-size: 18px; letter-spacing: .22em; color: var(--white); }
+        .mob-nav { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 0 24px; gap: 2px; }
+        .mob-link {
+            display: flex; align-items: baseline; gap: 16px;
+            font-family: var(--font-display); font-size: clamp(42px, 13vw, 58px);
+            letter-spacing: .04em; color: rgba(240,240,240,0.2);
+            text-decoration: none; line-height: 1.15; padding: 4px 0;
+            transition: color .15s; border-bottom: 0.5px solid transparent;
+        }
+        .mob-link.active { color: var(--white); }
+        .mob-link:active { color: rgba(240,240,240,0.6); }
+        .mob-link-num { font-family: var(--font-mono); font-size: 9px; letter-spacing: .15em; color: rgba(240,240,240,0.18); align-self: center; }
+        .mob-sep { height: 0.5px; background: var(--border); margin: 0 24px; }
+        .mob-footer {
+            padding: 20px 24px; display: flex; justify-content: space-between;
+            align-items: center; border-top: 0.5px solid var(--border); flex-shrink: 0;
+        }
+        .mob-user { font-family: var(--font-mono); font-size: 8px; letter-spacing: .12em; color: var(--muted); }
+        .mob-logout {
+            font-family: var(--font-mono); font-size: 8px; letter-spacing: .18em;
+            text-transform: uppercase; color: rgba(240,240,240,0.3);
+            background: none; border: 0.5px solid var(--border); text-decoration: none;
+            padding: 8px 14px; transition: color .15s, border-color .15s;
+        }
 
         /* ── Responsive ─────────────────────────────── */
         @media (max-width: 768px) {
-            .sidebar { transform: translateX(-100%); transition: transform .25s ease; }
-            .sidebar.open { transform: translateX(0); }
+            .sidebar { display: none; }
             .main { margin-left: 0; }
             .topbar { padding: 0 16px; }
             .topbar-badge { display: none; }
@@ -188,17 +227,19 @@
             .grid-2, .grid-3 { grid-template-columns: 1fr; }
             .form-row, .form-row-3 { grid-template-columns: 1fr; }
             .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .page-header-title { font-size: 32px; }
+            .page-header-title { font-size: 30px; }
             .flex-between { flex-wrap: wrap; gap: 12px; }
             .flex-end { flex-wrap: wrap; }
             .card-head { flex-wrap: wrap; gap: 10px; }
-            .access-code-display { font-size: 28px; letter-spacing: .3em; }
+            .access-code-display { font-size: 26px; letter-spacing: .25em; }
+            .photo-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
         }
 
         @media (max-width: 480px) {
-            .stat-num { font-size: 36px; }
+            .stat-num { font-size: 34px; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
-            .btn { font-size: 8px; padding: 8px 13px; }
+            .btn { font-size: 8px; padding: 8px 12px; }
+            .topbar-title { font-size: 18px; }
         }
     </style>
     {% block head %}{% endblock %}
@@ -270,13 +311,67 @@
     </div>
 </aside>
 
-<div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+<!-- ── Menu mobile plein écran ── -->
+<div class="mob-menu" id="mob-menu" role="dialog" aria-modal="true" aria-label="Menu admin">
+
+    <div class="mob-topbar">
+        <div class="mob-logo">JRMH</div>
+        <button class="hamburger is-open" id="mob-close" onclick="toggleMenu()" aria-label="Fermer">
+            <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </button>
+    </div>
+
+    <nav class="mob-nav">
+        <a href="{{ path('admin_dashboard') }}" class="mob-link {% if app.request.get('_route') == 'admin_dashboard' %}active{% endif %}">
+            <span class="mob-link-num">01</span> Dashboard
+        </a>
+        <a href="{{ path('admin_work_index') }}" class="mob-link {% if 'admin_work' in app.request.get('_route') %}active{% endif %}">
+            <span class="mob-link-num">02</span> Work
+        </a>
+        <a href="{{ path('admin_galleries_index') }}" class="mob-link {% if 'admin_galleries' in app.request.get('_route') %}active{% endif %}">
+            <span class="mob-link-num">03</span> Galeries
+        </a>
+        <a href="{{ path('admin_clients_index') }}" class="mob-link {% if 'admin_clients' in app.request.get('_route') %}active{% endif %}">
+            <span class="mob-link-num">04</span> Clients
+        </a>
+        <a href="{{ path('admin_contact_index') }}" class="mob-link {% if 'admin_contact' in app.request.get('_route') %}active{% endif %}" style="position:relative">
+            <span class="mob-link-num">05</span> Contact
+            {% set _unread = unreadContactCount ?? 0 %}
+            {% if _unread > 0 %}
+                <span style="font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;background:rgba(255,179,71,0.15);color:var(--warning);border:0.5px solid rgba(255,179,71,0.3);padding:3px 8px;border-radius:2px;margin-left:8px;align-self:center">{{ _unread }}</span>
+            {% endif %}
+        </a>
+    </nav>
+
+    <div class="mob-sep"></div>
+
+    <div style="padding:20px 24px 8px;display:flex;flex-direction:column;gap:4px">
+        <span style="font-family:var(--font-mono);font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:rgba(240,240,240,0.18);margin-bottom:6px">// Créer</span>
+        <a href="{{ path('admin_clients_new') }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,0.4);text-decoration:none;padding:10px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px">
+            <span style="color:var(--success);font-size:14px;line-height:1">+</span> Nouveau client
+        </a>
+        <a href="{{ path('admin_galleries_new') }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,0.4);text-decoration:none;padding:10px 0;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px">
+            <span style="color:var(--success);font-size:14px;line-height:1">+</span> Nouvelle galerie
+        </a>
+        <a href="{{ path('admin_work_new') }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:rgba(240,240,240,0.4);text-decoration:none;padding:10px 0;display:flex;align-items:center;gap:10px">
+            <span style="color:var(--success);font-size:14px;line-height:1">+</span> Nouveau projet
+        </a>
+    </div>
+
+    <div class="mob-footer">
+        <div>
+            <div style="font-family:var(--font-mono);font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,240,240,0.2);margin-bottom:4px">// Admin Studio</div>
+            <div class="mob-user">{{ app.user.email }}</div>
+        </div>
+        <a href="{{ path('admin_logout') }}" class="mob-logout">Déconnexion</a>
+    </div>
+</div>
 
 <div class="main">
     <header class="topbar">
         <div style="display:flex;align-items:center;gap:14px">
-            <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
-                <span></span><span></span><span></span>
+            <button class="hamburger" id="mob-open" onclick="toggleMenu()" aria-label="Menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </button>
             <div class="topbar-title">{% block page_title '' %}</div>
         </div>
@@ -357,10 +452,27 @@ function showDeleteModal(title, desc, onConfirm) {
     document.addEventListener('keydown', escHandler);
 }
 
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('open');
-    document.querySelector('.sidebar-overlay').classList.toggle('open');
+function toggleMenu() {
+    const menu   = document.getElementById('mob-menu');
+    const btnOpen = document.getElementById('mob-open');
+    const isOpen = menu.classList.contains('open');
+
+    if (!isOpen) {
+        menu.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => menu.classList.add('visible'));
+        btnOpen.classList.add('is-open');
+    } else {
+        menu.classList.remove('visible');
+        btnOpen.classList.remove('is-open');
+        document.body.style.overflow = '';
+        setTimeout(() => menu.classList.remove('open'), 250);
+    }
 }
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('mob-menu').classList.contains('open')) toggleMenu();
+});
 
 function closeDeleteModal() {
     const overlay = document.getElementById('delete-modal-overlay');
