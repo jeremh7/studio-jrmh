@@ -37,9 +37,9 @@ function SetPasswordContent() {
     const schema = z
       .object({
         password: z.string()
-          .min(8, sp.errorMin)
-          .regex(/[A-Z]/, sp.errorUpper)
-          .regex(/[0-9]/, sp.errorDigit),
+          .min(8, { message: sp.errorMin })
+          .regex(/[A-Z]/, { message: sp.errorUpper })
+          .regex(/[0-9]/, { message: sp.errorDigit }),
         confirm: z.string(),
       })
       .refine((d) => d.password === d.confirm, { message: sp.errorMatch, path: ['confirm'] })

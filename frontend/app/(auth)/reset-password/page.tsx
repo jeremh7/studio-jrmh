@@ -54,9 +54,9 @@ function ResetPasswordContent() {
     const schema = z
       .object({
         password: z.string()
-          .min(8, rp.errorMin)
-          .regex(/[A-Z]/, rp.errorUpper)
-          .regex(/[0-9]/, rp.errorDigit),
+          .min(8, { message: rp.errorMin })
+          .regex(/[A-Z]/, { message: rp.errorUpper })
+          .regex(/[0-9]/, { message: rp.errorDigit }),
         confirm: z.string(),
       })
       .refine((d) => d.password === d.confirm, { message: rp.errorMatch, path: ['confirm'] })
