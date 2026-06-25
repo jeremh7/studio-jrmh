@@ -6,6 +6,7 @@ import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { z } from 'zod'
 import { apiLogin } from '@/lib/api'
+import { authConfig } from '@/auth.config'
 
 // Schéma de validation des credentials
 const loginSchema = z.object({
@@ -14,6 +15,7 @@ const loginSchema = z.object({
 })
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   providers: [
     Credentials({
       name: 'credentials',
