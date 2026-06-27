@@ -26,4 +26,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
     && php bin/console cache:warmup \
     && chmod -R 777 var/
 
-CMD php -S 0.0.0.0:${PORT:-8000} -t public/
+CMD php \
+    -d upload_max_filesize=50M \
+    -d post_max_size=55M \
+    -d memory_limit=256M \
+    -S 0.0.0.0:${PORT:-8000} \
+    -t public/
