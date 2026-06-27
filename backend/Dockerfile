@@ -22,7 +22,7 @@ COPY . .
 
 RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interaction \
     && composer dump-autoload --no-dev --optimize \
-    && mkdir -p var/uploads var/private \
+    && mkdir -p var/uploads var/uploads/.sessions var/private \
     && php bin/console cache:warmup \
     && chmod -R 777 var/
 
