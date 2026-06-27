@@ -183,7 +183,7 @@ class GalleryController extends AbstractController
                     'size' => $photo->getFileSizeFormatted(),
                     'url' => $photo->getPublicUrl(),
                 ];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 $errors[] = $file->getClientOriginalName() . ' — ' . $e->getMessage();
             }
         }

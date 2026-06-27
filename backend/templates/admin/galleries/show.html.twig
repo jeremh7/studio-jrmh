@@ -350,10 +350,16 @@ async function upload(files) {
     try {
         const r = await fetch('{{ path('admin_galleries_upload', {id: gallery.id}) }}', { method: 'POST', body: fd });
 
-        if (r.status === 302 || r.redirected || !r.headers.get('content-type')?.includes('application/json')) {
+        if (r.status === 302 || r.redirected) {
             clearInterval(ticker);
             statusEl.style.color = 'var(--danger)';
             statusEl.textContent = '✕ Session expirée — rechargez la page et reconnectez-vous.';
+            return;
+        }
+        if (!r.headers.get('content-type')?.includes('application/json')) {
+            clearInterval(ticker);
+            statusEl.style.color = 'var(--danger)';
+            statusEl.textContent = `✕ Erreur serveur (${r.status}) — vérifiez les logs Railway.`;
             return;
         }
 
