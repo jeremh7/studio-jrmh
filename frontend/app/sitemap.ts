@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 
-const API_URL  = process.env.NEXT_PUBLIC_API_URL  ?? 'http://localhost:8000'
+// API_URL: préférer la var serveur (sans NEXT_PUBLIC_) pour le sitemap
+const API_URL  = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://studiojrmh.fr'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
