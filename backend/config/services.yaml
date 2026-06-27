@@ -12,6 +12,11 @@ services:
         autowire: true
         autoconfigure: true
 
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
+        arguments:
+            - '%env(DATABASE_URL)%'
+            - { db_table: 'sessions', db_lifetime_col: 'sess_lifetime', lock_mode: 1 }
+
     App\:
         resource: '../src/'
         exclude:
