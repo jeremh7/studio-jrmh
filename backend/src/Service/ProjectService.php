@@ -5,10 +5,16 @@ namespace App\Service;
 use App\Entity\Project;
 use App\Entity\ProjectPhoto;
 use Doctrine\ORM\EntityManagerInterface;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectService
 {
+    // Portfolio : plus grand que les galeries client (1200px) pour la qualité d'affichage
+    private const WEB_MAX_SIZE = 2000;
+    private const WEB_QUALITY  = 85;
+
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly string $uploadDir,
@@ -19,11 +25,26 @@ class ProjectService
         $dir = $this->uploadDir . '/projects/' . $project->getId();
         if (!is_dir($dir)) mkdir($dir, 0755, true);
 
-        $ext  = $file->guessExtension() ?? 'jpg';
-        $name = sprintf('%d_%s.%s', $project->getId(), uniqid(), $ext);
-        $rel  = sprintf('projects/%d/%s', $project->getId(), $name);
+        $base    = sprintf('%d_%s', $project->getId(), uniqid());
+        $srcPath = $file->getRealPath();
 
-        $file->move($dir, $name);
+        // Version web WebP redimensionnée ; si le décodage échoue (format exotique),
+        // on retombe sur l'upload brut comme avant.
+        try {
+            $manager = new ImageManager(new Driver());
+            $image   = $manager->read($srcPath);
+            $image->scaleDown(width: self::WEB_MAX_SIZE, height: self::WEB_MAX_SIZE);
+
+            $name = $base . '.webp';
+            $ext  = 'webp';
+            $image->toWebp(quality: self::WEB_QUALITY)->save($dir . '/' . $name);
+        } catch (\Throwable) {
+            $ext  = strtolower($file->guessExtension() ?? 'jpg');
+            $name = $base . '.' . $ext;
+            $file->move($dir, $name);
+        }
+
+        $rel = sprintf('projects/%d/%s', $project->getId(), $name);
 
         $photo = new ProjectPhoto();
         $photo->setProject($project);
@@ -34,11 +55,9 @@ class ProjectService
         $photo->setFileSize(filesize($dir . '/' . $name) ?: 0);
         $photo->setSortOrder($project->getPhotos()->count());
 
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
-            [$w, $h] = @getimagesize($dir . '/' . $name) ?: [null, null];
-            $photo->setWidth($w);
-            $photo->setHeight($h);
-        }
+        [$w, $h] = @getimagesize($dir . '/' . $name) ?: [null, null];
+        $photo->setWidth($w);
+        $photo->setHeight($h);
 
         // Première photo = cover auto
         if ($project->getPhotoCount() === 0) {

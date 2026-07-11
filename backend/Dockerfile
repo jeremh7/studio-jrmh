@@ -31,4 +31,5 @@ CMD php \
     -d post_max_size=55M \
     -d memory_limit=256M \
     -S 0.0.0.0:${PORT:-8000} \
-    -t public/
+    -t public/ \
+    public/router.php
