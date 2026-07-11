@@ -55,3 +55,7 @@ services:
         arguments:
             $mailerFrom:     '%mailer_from%'
             $mailerFromName: '%mailer_from_name%'
+
+    App\Command\OptimizeProjectPhotosCommand:
+        arguments:
+            $uploadDir: '%upload_dir%'

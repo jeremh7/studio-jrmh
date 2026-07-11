@@ -26,7 +26,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts --no-interactio
     && php bin/console cache:warmup \
     && chmod -R 777 var/
 
-CMD php \
+# La migration photos tourne en arrière-plan (idempotente, no-op une fois faite)
+CMD php bin/console app:optimize-project-photos --no-interaction > /tmp/optimize-photos.log 2>&1 & \
+    php \
     -d upload_max_filesize=50M \
     -d post_max_size=55M \
     -d memory_limit=256M \

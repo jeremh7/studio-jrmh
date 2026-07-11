@@ -271,8 +271,14 @@ final class GalleryController extends AbstractController
 
         $added = 0;
         foreach ($photos as $photo) {
+            // Original HD si présent, sinon version web (si l'original a été perdu)
             $fullRelPath = $photo->getFullPath();
             $srcPath     = $fullRelPath ? $this->privateDir . '/' . $fullRelPath : null;
+
+            if (!$srcPath || !file_exists($srcPath)) {
+                $webRel  = $photo->getWebPath() ?? $photo->getPath();
+                $srcPath = $webRel ? $this->uploadDir . '/' . $webRel : null;
+            }
 
             if (!$srcPath || !file_exists($srcPath)) continue;
 
