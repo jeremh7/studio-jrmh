@@ -26,7 +26,7 @@ class CreateAdminCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $email    = 'studiojrmh@gmail.com';
-        $password = $_ENV['ADMIN_PASSWORD'] ?? '';
+        $password = $_ENV['ADMIN_PASSWORD'] ?? (getenv('ADMIN_PASSWORD') ?: '');
 
         if ($password === '') {
             $io->error('Variable ADMIN_PASSWORD non définie.');
