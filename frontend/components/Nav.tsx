@@ -182,11 +182,11 @@ export default function Nav() {
           ref={logoRef}
           href="/"
           aria-label={t.nav.ariaLogo}
-          style={{ fontFamily: 'var(--font-display)', fontSize: 18, letterSpacing: '0.22em', color: '#fff', textDecoration: 'none', flexShrink: 0 }}
-          onMouseEnter={e => gsap.to(e.currentTarget, { letterSpacing: '0.28em', duration: 0.3, ease: 'power2.out' })}
-          onMouseLeave={e => gsap.to(e.currentTarget, { letterSpacing: '0.22em', duration: 0.3, ease: 'power2.out' })}
+          style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(14px, 2vw, 18px)', letterSpacing: '0.14em', color: '#fff', textDecoration: 'none', flexShrink: 0, whiteSpace: 'nowrap' }}
+          onMouseEnter={e => gsap.to(e.currentTarget, { letterSpacing: '0.2em', duration: 0.3, ease: 'power2.out' })}
+          onMouseLeave={e => gsap.to(e.currentTarget, { letterSpacing: '0.14em', duration: 0.3, ease: 'power2.out' })}
         >
-          P.JRMH
+          STUDIØ JRMH
         </Link>
 
         {/* Liens desktop */}
@@ -294,7 +294,7 @@ export default function Nav() {
       >
         {/* En-tête */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 60, display: 'flex', alignItems: 'center', padding: '0 clamp(20px, 5vw, 32px)', borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
-          <span aria-hidden="true" style={{ fontFamily: 'var(--font-display)', fontSize: 18, letterSpacing: '0.22em', color: '#fff' }}>P.JRMH</span>
+          <span aria-hidden="true" style={{ fontFamily: 'var(--font-display)', fontSize: 16, letterSpacing: '0.14em', color: '#fff' }}>STUDIØ JRMH</span>
         </div>
 
         {/* Liens */}
