@@ -305,6 +305,12 @@ class GalleryController extends AbstractController
             // On continue quand même la suppression
         }
         
+        // Supprime d'abord les fichiers physiques (R2/disque) de chaque photo,
+        // sinon la cascade Doctrine ne nettoie que les lignes en base et laisse les fichiers orphelins.
+        foreach ($gallery->getPhotos()->toArray() as $photo) {
+            $this->galleryService->deletePhoto($photo);
+        }
+
         // Suppression de la galerie
         $this->em->remove($gallery);
         $this->em->flush();

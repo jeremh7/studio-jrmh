@@ -207,6 +207,12 @@ class ProjectController extends AbstractController
     #[Route('/{id}/delete', name: 'delete', requirements: ['id' => '\d+'], methods: ['POST'])]
     public function delete(Project $project): Response
     {
+        // Supprime d'abord les fichiers physiques (R2/disque) de chaque photo,
+        // sinon la cascade Doctrine ne nettoie que les lignes en base et laisse les fichiers orphelins.
+        foreach ($project->getPhotos()->toArray() as $photo) {
+            $this->projectService->deletePhoto($photo);
+        }
+
         $this->em->remove($project);
         $this->em->flush();
         $this->addFlash('success', 'Projet supprimé.');
