@@ -104,8 +104,9 @@ p { line-height: 1.7; }
 }
 
 /* ── Curseur custom ─────────────────────────────────────────────── */
-html { cursor: none; }
-@media (hover: none) { html { cursor: auto; } }
+/* !important nécessaire pour écraser les cursor:pointer inline/Tailwind sur les éléments cliquables */
+*, *::before, *::after { cursor: none !important; }
+@media (hover: none) { *, *::before, *::after { cursor: auto !important; } }
 
 /* ── Utilitaires ────────────────────────────────────────────────── */
 
