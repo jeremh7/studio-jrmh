@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use App\Service\Storage\PublicUrl;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -104,7 +105,7 @@ class Project
 
     public function getCoverImage(): ?string { return $this->coverImage; }
     public function setCoverImage(?string $coverImage): static { $this->coverImage = $coverImage; return $this; }
-    public function getCoverImageUrl(): ?string { return $this->coverImage ? '/uploads/projects/' . $this->id . '/' . $this->coverImage : null; }
+    public function getCoverImageUrl(): ?string { return $this->coverImage ? PublicUrl::resolve('projects/' . $this->id . '/' . $this->coverImage) : null; }
 
     public function getStatus(): string { return $this->status; }
     public function setStatus(string $status): static { $this->status = $status; return $this; }

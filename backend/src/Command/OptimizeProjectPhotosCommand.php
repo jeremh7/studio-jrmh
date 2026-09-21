@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Entity\Project;
 use App\Entity\ProjectPhoto;
+use App\Service\Storage\R2Storage;
 use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -17,7 +18,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Convertit les photos de projets existantes (JPEG/PNG bruts) en WebP 2000px.
- * Idempotent : les photos déjà en WebP sont ignorées — peut tourner à chaque boot.
+ * Idempotent : les photos deja en WebP sont ignorees - peut tourner a chaque boot.
+ *
+ * Sans objet quand le stockage R2 est actif (les nouvelles photos sont deja optimisees
+ * a l'upload et ne vivent plus sur le disque local du conteneur) - la commande sort
+ * immediatement dans ce cas.
  */
 #[AsCommand(
     name: 'app:optimize-project-photos',
@@ -31,14 +36,21 @@ final class OptimizeProjectPhotosCommand extends Command
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly string $uploadDir,
+        private readonly R2Storage $storage,
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        ini_set('memory_limit', '512M');
         $io = new SymfonyStyle($input, $output);
+
+        if ($this->storage->enabled) {
+            $io->note('Stockage R2 actif — rien a optimiser localement.');
+            return Command::SUCCESS;
+        }
+
+        ini_set('memory_limit', '512M');
 
         $photos = $this->em->getRepository(ProjectPhoto::class)->findAll();
         $todo   = array_filter(
@@ -47,7 +59,7 @@ final class OptimizeProjectPhotosCommand extends Command
         );
 
         if ($todo === []) {
-            $io->success('Rien à convertir — toutes les photos sont déjà optimisées.');
+            $io->success('Rien a convertir — toutes les photos sont deja optimisees.');
             return Command::SUCCESS;
         }
 
@@ -62,7 +74,7 @@ final class OptimizeProjectPhotosCommand extends Command
             $oldPath = $this->uploadDir . '/' . $photo->getPath();
 
             if (!is_file($oldPath)) {
-                $io->warning(sprintf('Fichier manquant, ignoré : %s', $photo->getPath()));
+                $io->warning(sprintf('Fichier manquant, ignore : %s', $photo->getPath()));
                 continue;
             }
 
@@ -82,7 +94,7 @@ final class OptimizeProjectPhotosCommand extends Command
                 $photo->setWidth($image->width());
                 $photo->setHeight($image->height());
 
-                // Répercute sur la cover du projet si elle pointait sur l'ancien fichier
+                // Repercute sur la cover du projet si elle pointait sur l'ancien fichier
                 $project = $photo->getProject();
                 if ($project instanceof Project && $project->getCoverImage() === $oldName) {
                     $project->setCoverImage($newName);
@@ -95,8 +107,8 @@ final class OptimizeProjectPhotosCommand extends Command
                 $io->writeln(sprintf('  ✓ %s → %s', $oldName, $newName));
             } catch (\Throwable $e) {
                 $errors++;
-                $io->warning(sprintf('Échec %s : %s', $oldName, $e->getMessage()));
-                @unlink($newPath); // pas de fichier orphelin à moitié écrit
+                $io->warning(sprintf('Echec %s : %s', $oldName, $e->getMessage()));
+                @unlink($newPath);
             }
         }
 

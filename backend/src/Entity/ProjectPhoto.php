@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProjectPhotoRepository;
+use App\Service\Storage\PublicUrl;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectPhotoRepository::class)]
@@ -76,7 +77,7 @@ class ProjectPhoto
     public function isCover(): bool { return $this->isCover; }
     public function setIsCover(bool $v): static { $this->isCover = $v; return $this; }
     public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
-    public function getPublicUrl(): string { return '/uploads/' . $this->path; }
+    public function getPublicUrl(): string { return PublicUrl::resolve($this->path); }
     public function getFileSizeFormatted(): string
     {
         if (!$this->fileSize) return '—';

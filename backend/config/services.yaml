@@ -6,6 +6,12 @@ parameters:
     mailer_from_name:   '%env(MAILER_FROM_NAME)%'
     admin_email:        '%env(ADMIN_EMAIL)%'
     mailer_redirect_to: '%env(string:default::MAILER_REDIRECT_TO)%'
+    r2_account_id:        '%env(R2_ACCOUNT_ID)%'
+    r2_access_key_id:     '%env(R2_ACCESS_KEY_ID)%'
+    r2_secret_access_key: '%env(R2_SECRET_ACCESS_KEY)%'
+    r2_bucket_public:     '%env(R2_BUCKET_PUBLIC)%'
+    r2_bucket_private:    '%env(R2_BUCKET_PRIVATE)%'
+    r2_public_url:        '%env(R2_PUBLIC_URL)%'
 
 services:
     _defaults:
@@ -18,6 +24,15 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    App\Service\Storage\R2Storage:
+        arguments:
+            $accountId:       '%r2_account_id%'
+            $accessKeyId:     '%r2_access_key_id%'
+            $secretAccessKey: '%r2_secret_access_key%'
+            $publicBucket:    '%r2_bucket_public%'
+            $privateBucket:   '%r2_bucket_private%'
+            $publicBaseUrl:   '%r2_public_url%'
 
     App\Service\ImageService:
         arguments:

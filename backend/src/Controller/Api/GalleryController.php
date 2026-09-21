@@ -8,6 +8,7 @@ use App\Entity\Client;
 use App\Entity\Gallery;
 use App\Entity\Photo;
 use App\Repository\GalleryRepository;
+use App\Service\Storage\R2Storage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +25,7 @@ final class GalleryController extends AbstractController
         private readonly EntityManagerInterface $em,
         private readonly string                 $uploadDir,
         private readonly string                 $privateDir,
+        private readonly R2Storage               $storage,
     ) {}
 
     // POST /api/gallery/access — accès par code (public)
@@ -269,26 +271,64 @@ final class GalleryController extends AbstractController
             return $this->json(['error' => 'Impossible de créer l\'archive.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
+        // Fichiers temporaires téléchargés depuis R2 — nettoyés après fermeture du ZIP
+        $r2TempFiles = [];
+
         $added = 0;
         foreach ($photos as $photo) {
-            // Original HD si présent, sinon version web (si l'original a été perdu)
-            $fullRelPath = $photo->getFullPath();
-            $srcPath     = $fullRelPath ? $this->privateDir . '/' . $fullRelPath : null;
+            $srcPath     = null;
+            $usedRelPath = null; // clé relative réellement utilisée — sert à déduire l'extension
 
-            if (!$srcPath || !file_exists($srcPath)) {
-                $webRel  = $photo->getWebPath() ?? $photo->getPath();
-                $srcPath = $webRel ? $this->uploadDir . '/' . $webRel : null;
+            if ($this->storage->enabled) {
+                $fullRelPath = $photo->getFullPath();
+                if ($fullRelPath) {
+                    $srcPath = $this->storage->downloadPrivateToTemp($fullRelPath);
+                    if ($srcPath) $usedRelPath = $fullRelPath;
+                }
+
+                if (!$srcPath) {
+                    $webRel = $photo->getWebPath() ?? $photo->getPath();
+                    if ($webRel) {
+                        $srcPath = $this->storage->downloadPublicToTemp($webRel);
+                        if ($srcPath) $usedRelPath = $webRel;
+                    }
+                }
+
+                if ($srcPath) {
+                    $r2TempFiles[] = $srcPath;
+                }
+            } else {
+                // Original HD si présent, sinon version web (si l'original a été perdu)
+                $fullRelPath = $photo->getFullPath();
+                $candidate   = $fullRelPath ? $this->privateDir . '/' . $fullRelPath : null;
+
+                if ($candidate && file_exists($candidate)) {
+                    $srcPath     = $candidate;
+                    $usedRelPath = $fullRelPath;
+                } else {
+                    $webRel    = $photo->getWebPath() ?? $photo->getPath();
+                    $candidate = $webRel ? $this->uploadDir . '/' . $webRel : null;
+                    if ($candidate && file_exists($candidate)) {
+                        $srcPath     = $candidate;
+                        $usedRelPath = $webRel;
+                    }
+                }
             }
 
             if (!$srcPath || !file_exists($srcPath)) continue;
 
             $added++;
-            $ext   = strtolower(pathinfo($srcPath, PATHINFO_EXTENSION) ?: 'jpg');
+            $ext   = strtolower(pathinfo($usedRelPath ?? $srcPath, PATHINFO_EXTENSION) ?: 'jpg');
             $label = sprintf('%03d_photo-studiojrmh.%s', $added, $ext);
             $zip->addFile($srcPath, $label);
         }
 
         $zip->close();
+
+        // Les originaux téléchargés depuis R2 ne sont plus utiles une fois le ZIP écrit sur disque
+        foreach ($r2TempFiles as $tmp) {
+            @unlink($tmp);
+        }
 
         if ($added === 0) {
             @unlink($zipPath);

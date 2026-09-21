@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Service\Storage\MimeTypes;
+use App\Service\Storage\R2Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 use Psr\Log\LoggerInterface;
@@ -11,9 +13,11 @@ use Psr\Log\LoggerInterface;
 /**
  * Traitement d'images : resize WebP, watermark, thumbnail.
  *
- * Structure de fichiers :
- *   var/uploads/galleries/{id}/web/{uuid}.webp  → public (symlink)
- *   var/private/galleries/{id}/{uuid}.{ext}      → privé (jamais exposé)
+ * Stockage :
+ *  - Si R2Storage::enabled → tout part sur Cloudflare R2 (persistant, indépendant du disque).
+ *  - Sinon (dev local sans identifiants R2) → fallback disque local :
+ *      var/uploads/galleries/{id}/web/{uuid}.webp  → public (symlink)
+ *      var/private/galleries/{id}/{uuid}.{ext}      → privé (jamais exposé)
  */
 final class ImageService
 {
@@ -27,6 +31,7 @@ final class ImageService
     public function __construct(
         private readonly string $uploadDir,
         private readonly string $privateDir,
+        private readonly R2Storage $storage,
         private readonly LoggerInterface $logger,
     ) {
         $this->manager = new ImageManager(new Driver());
@@ -50,23 +55,13 @@ final class ImageService
     ): array {
         $uuid = bin2hex(random_bytes(12));
 
-        // ── Chemins ──
-        $privateGalleryDir = $this->privateDir . '/galleries/' . $galleryId;
-        $webGalleryDir     = $this->uploadDir  . '/galleries/' . $galleryId . '/web';
-
-        $this->ensureDir($privateGalleryDir);
-        $this->ensureDir($webGalleryDir);
-
         $fullFilename = $uuid . '.' . strtolower($originalExtension);
         $webFilename  = $uuid . '.webp';
 
-        $fullAbsPath = $privateGalleryDir . '/' . $fullFilename;
-        $webAbsPath  = $webGalleryDir    . '/' . $webFilename;
+        $fullRelPath = 'galleries/' . $galleryId . '/' . $fullFilename;
+        $webRelPath  = 'galleries/' . $galleryId . '/web/' . $webFilename;
 
-        // ── 1. Copie de l'original en privé ──
-        copy($sourcePath, $fullAbsPath);
-
-        // ── 2. Version web redimensionnée ──
+        // ── 1. Version web redimensionnée (traitement toujours local le temps de l'encodage) ──
         $image = $this->manager->read($sourcePath);
 
         [$origW, $origH] = [$image->width(), $image->height()];
@@ -78,19 +73,28 @@ final class ImageService
 
         [$webW, $webH] = [$image->width(), $image->height()];
 
-        // ── 3. Watermark ──
         if ($watermarkLevel !== 'none') {
             $this->applyWatermark($image, $watermarkLevel, $webW, $webH);
         }
 
-        // ── 4. Encodage WebP + sauvegarde ──
-        $image->toWebp(quality: self::WEB_QUALITY)->save($webAbsPath);
+        $tmpWebPath = sys_get_temp_dir() . '/jrmh_web_' . $uuid . '.webp';
+        $image->toWebp(quality: self::WEB_QUALITY)->save($tmpWebPath);
+        $webSize = filesize($tmpWebPath) ?: 0;
 
-        $webSize = filesize($webAbsPath) ?: 0;
+        // ── 2. Sauvegarde : R2 si configuré, sinon disque local ──
+        if ($this->storage->enabled) {
+            $this->storage->uploadPrivate($sourcePath, $fullRelPath, MimeTypes::forExtension($originalExtension));
+            $this->storage->uploadPublic($tmpWebPath, $webRelPath, 'image/webp');
+            @unlink($tmpWebPath);
+        } else {
+            $privateGalleryDir = $this->privateDir . '/galleries/' . $galleryId;
+            $webGalleryDir     = $this->uploadDir  . '/galleries/' . $galleryId . '/web';
+            $this->ensureDir($privateGalleryDir);
+            $this->ensureDir($webGalleryDir);
 
-        // Chemins relatifs (à stocker en base)
-        $fullRelPath = 'galleries/' . $galleryId . '/' . $fullFilename;
-        $webRelPath  = 'galleries/' . $galleryId . '/web/' . $webFilename;
+            copy($sourcePath, $privateGalleryDir . '/' . $fullFilename);
+            rename($tmpWebPath, $webGalleryDir . '/' . $webFilename);
+        }
 
         $this->logger->info('[ImageService] Photo traitée', [
             'gallery'  => $galleryId,
@@ -99,6 +103,7 @@ final class ImageService
             'origSize' => "{$origW}×{$origH}",
             'webSize'  => "{$webW}×{$webH}",
             'fileSize' => $webSize,
+            'storage'  => $this->storage->enabled ? 'r2' : 'local',
         ]);
 
         return [
@@ -138,6 +143,14 @@ final class ImageService
      */
     public function deletePhotoFiles(string $webRelPath, ?string $fullRelPath): void
     {
+        if ($this->storage->enabled) {
+            $this->storage->deletePublic($webRelPath);
+            if ($fullRelPath !== null) {
+                $this->storage->deletePrivate($fullRelPath);
+            }
+            return;
+        }
+
         $webAbs = $this->uploadDir . '/' . $webRelPath;
         if (file_exists($webAbs)) {
             unlink($webAbs);

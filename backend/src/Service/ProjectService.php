@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Project;
 use App\Entity\ProjectPhoto;
+use App\Service\Storage\MimeTypes;
+use App\Service\Storage\R2Storage;
 use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -11,40 +13,53 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ProjectService
 {
-    // Portfolio : plus grand que les galeries client (1200px) pour la qualité d'affichage
+    // Portfolio : plus grand que les galeries client (1200px) pour la qualite d'affichage
     private const WEB_MAX_SIZE = 2000;
     private const WEB_QUALITY  = 85;
 
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly string $uploadDir,
+        private readonly R2Storage $storage,
     ) {}
 
     public function uploadPhoto(Project $project, UploadedFile $file): ProjectPhoto
     {
-        $dir = $this->uploadDir . '/projects/' . $project->getId();
-        if (!is_dir($dir)) mkdir($dir, 0755, true);
-
         $base    = sprintf('%d_%s', $project->getId(), uniqid());
         $srcPath = $file->getRealPath();
+        $tmpDir  = sys_get_temp_dir();
 
-        // Version web WebP redimensionnée ; si le décodage échoue (format exotique),
+        // Version web WebP redimensionnee ; si le decodage echoue (format exotique),
         // on retombe sur l'upload brut comme avant.
         try {
             $manager = new ImageManager(new Driver());
             $image   = $manager->read($srcPath);
             $image->scaleDown(width: self::WEB_MAX_SIZE, height: self::WEB_MAX_SIZE);
 
-            $name = $base . '.webp';
-            $ext  = 'webp';
-            $image->toWebp(quality: self::WEB_QUALITY)->save($dir . '/' . $name);
+            $name    = $base . '.webp';
+            $ext     = 'webp';
+            $tmpPath = $tmpDir . '/jrmh_proj_' . $name;
+            $image->toWebp(quality: self::WEB_QUALITY)->save($tmpPath);
+            [$w, $h] = [$image->width(), $image->height()];
         } catch (\Throwable) {
-            $ext  = strtolower($file->guessExtension() ?? 'jpg');
-            $name = $base . '.' . $ext;
-            $file->move($dir, $name);
+            $ext     = strtolower($file->guessExtension() ?? 'jpg');
+            $name    = $base . '.' . $ext;
+            $tmpPath = $tmpDir . '/jrmh_proj_' . $name;
+            copy($srcPath, $tmpPath);
+            [$w, $h] = @getimagesize($tmpPath) ?: [null, null];
         }
 
-        $rel = sprintf('projects/%d/%s', $project->getId(), $name);
+        $rel  = sprintf('projects/%d/%s', $project->getId(), $name);
+        $size = filesize($tmpPath) ?: 0;
+
+        if ($this->storage->enabled) {
+            $this->storage->uploadPublic($tmpPath, $rel, MimeTypes::forExtension($ext));
+            @unlink($tmpPath);
+        } else {
+            $dir = $this->uploadDir . '/projects/' . $project->getId();
+            if (!is_dir($dir)) mkdir($dir, 0755, true);
+            rename($tmpPath, $dir . '/' . $name);
+        }
 
         $photo = new ProjectPhoto();
         $photo->setProject($project);
@@ -52,14 +67,12 @@ class ProjectService
         $photo->setStoredFilename($name);
         $photo->setPath($rel);
         $photo->setExtension($ext);
-        $photo->setFileSize(filesize($dir . '/' . $name) ?: 0);
-        $photo->setSortOrder($project->getPhotos()->count());
-
-        [$w, $h] = @getimagesize($dir . '/' . $name) ?: [null, null];
+        $photo->setFileSize($size);
+        $photo->setSortOrder($project->getPhotoCount());
         $photo->setWidth($w);
         $photo->setHeight($h);
 
-        // Première photo = cover auto
+        // Premiere photo = cover auto
         if ($project->getPhotoCount() === 0) {
             $photo->setIsCover(true);
             $project->setCoverImage($name);
@@ -73,8 +86,12 @@ class ProjectService
 
     public function deletePhoto(ProjectPhoto $photo): void
     {
-        $fp = $this->uploadDir . '/' . $photo->getPath();
-        if (file_exists($fp)) unlink($fp);
+        if ($this->storage->enabled) {
+            $this->storage->deletePublic($photo->getPath());
+        } else {
+            $fp = $this->uploadDir . '/' . $photo->getPath();
+            if (file_exists($fp)) unlink($fp);
+        }
         $this->em->remove($photo);
         $this->em->flush();
     }

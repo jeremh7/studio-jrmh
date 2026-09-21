@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 use App\Repository\PhotoRepository;
+use App\Service\Storage\PublicUrl;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
@@ -44,13 +45,13 @@ class Photo
     #[ORM\Column]
     private bool $isFeatured = false;
 
-    // ── Champs V2 ─────────────────────────────────────────────────
+    // -- Champs V2 ----------------------------------------------------
 
-    /** Chemin relatif de la version web (1200px WebP) dans var/uploads/ */
+    /** Chemin relatif (cle objet) de la version web (1200px WebP) */
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $webPath = null;
 
-    /** Chemin relatif de l'original dans var/private/ (jamais exposé publiquement) */
+    /** Chemin relatif (cle objet) de l'original, jamais expose publiquement */
     #[ORM\Column(length: 500, nullable: true)]
     private ?string $fullPath = null;
 
@@ -58,7 +59,7 @@ class Photo
     #[ORM\Column(nullable: true)]
     private ?int $webSize = null;
 
-    /** Prix unitaire pour achat à la photo (null = non vendable à l'unité) */
+    /** Prix unitaire pour achat a la photo (null = non vendable a l'unite) */
     #[ORM\Column(type: 'decimal', precision: 8, scale: 2, nullable: true)]
     private ?string $unitPrice = null;
 
@@ -105,8 +106,8 @@ class Photo
     public function setIsPurchasable(bool $v): static { $this->isPurchasable = $v; return $this; }
     public function hasFullVersion(): bool { return $this->fullPath !== null; }
 
-    /** URL publique : utilise webPath en V2, path en V1 (compatibilité ascendante) */
-    public function getPublicUrl(): string { return '/uploads/' . ($this->webPath ?? $this->path); }
+    /** URL publique : R2 si configure, sinon /uploads/ local. webPath en V2, path en V1 (compat). */
+    public function getPublicUrl(): string { return PublicUrl::resolve($this->webPath ?? $this->path); }
     public function getFileSizeFormatted(): string {
         if ($this->fileSize === null) return '—';
         $kb = $this->fileSize / 1024;
