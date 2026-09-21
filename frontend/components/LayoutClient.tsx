@@ -5,6 +5,7 @@ import Lenis from 'lenis'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import Cursor from '@/components/Cursor'
+import CookieBanner from '@/components/CookieBanner'
 
 export default function LayoutClient({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null)
@@ -66,6 +67,7 @@ export default function LayoutClient({ children }: { children: React.ReactNode }
         {children}
       </main>
       <Footer />
+      <CookieBanner />
     </>
   )
 }

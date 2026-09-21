@@ -307,6 +307,98 @@ export const translations = {
       },
     },
     lang: { switch: 'EN', switchLabel: 'Switch to English', currentLabel: 'Langue actuelle : Français' },
+    cookieBanner: {
+      text: "Ce site utilise uniquement des cookies essentiels (connexion à l'espace client) et une mesure d'audience anonyme sans cookie. Aucune donnée personnelle n'est revendue ni partagée à des fins publicitaires.",
+      accept: 'Compris',
+      link: 'En savoir plus',
+    },
+    legalNav: { privacy: 'Confidentialité', terms: "Conditions d'utilisation" },
+    privacyPage: {
+      label: '// Vie privée',
+      title: 'POLITIQUE DE',
+      title2: 'CONFIDENTIALITÉ',
+      updated: 'Dernière mise à jour : 21 septembre 2026',
+      sections: [
+        {
+          heading: '1. Responsable du traitement',
+          body: "Le responsable du traitement des données collectées sur ce site est Jérémy Hordé, photographe professionnel exerçant sous le nom Studiø JRMH, basé à Troyes (Aube), France. Pour toute question relative à vos données personnelles, contactez studio.jrmh@gmail.com.",
+        },
+        {
+          heading: '2. Données collectées',
+          body: "Formulaire de contact : nom, adresse email, sujet et message. Espace client : nom, prénom, adresse email et mot de passe (stocké de façon chiffrée, jamais en clair). Galeries photo : les photographies prises lors de vos séances, associées à votre compte client. Aucune donnée bancaire n'est collectée ou stockée sur ce site.",
+        },
+        {
+          heading: '3. Finalités du traitement',
+          body: "Vos données sont utilisées pour répondre à vos demandes de contact, créer et gérer votre accès à l'espace client, et vous permettre de consulter et télécharger vos photographies. Elles ne sont jamais utilisées à des fins de prospection commerciale sans votre accord explicite.",
+        },
+        {
+          heading: '4. Base légale',
+          body: "Le traitement des demandes de contact repose sur l'intérêt légitime à répondre aux sollicitations. La gestion de l'espace client et des galeries repose sur l'exécution du contrat de prestation photographique conclu avec vous.",
+        },
+        {
+          heading: '5. Destinataires des données',
+          body: "Vos données ne sont jamais vendues. Elles sont traitées par des prestataires techniques nécessaires au fonctionnement du site : Brevo (envoi des emails transactionnels), Cloudflare (stockage sécurisé des photographies), Railway (hébergement du serveur et de la base de données) et Vercel (hébergement du site et mesure d'audience anonyme, sans cookie). Ces prestataires sont soumis à des obligations de confidentialité.",
+        },
+        {
+          heading: '6. Cookies',
+          body: "Ce site utilise uniquement des cookies strictement nécessaires à son fonctionnement (maintien de votre session de connexion à l'espace client). Aucun cookie de mesure d'audience ou publicitaire n'est déposé. La mesure d'audience utilisée (Vercel Analytics) ne dépose aucun cookie et ne permet pas de vous identifier individuellement.",
+        },
+        {
+          heading: '7. Durée de conservation',
+          body: "Les messages envoyés via le formulaire de contact sont conservés 3 ans maximum. Les données de votre compte client et vos galeries sont conservées pendant la durée de votre relation avec le photographe, puis archivées ou supprimées à votre demande.",
+        },
+        {
+          heading: '8. Vos droits',
+          body: "Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition concernant vos données personnelles. Pour exercer ces droits, contactez studio.jrmh@gmail.com. Vous pouvez également introduire une réclamation auprès de la CNIL (www.cnil.fr).",
+        },
+        {
+          heading: '9. Sécurité',
+          body: "L'ensemble du site est servi en HTTPS. Les mots de passe sont hachés et jamais stockés en clair. L'accès à vos galeries est protégé par authentification et les liens de partage sont individuels et révocables à tout moment depuis votre espace client.",
+        },
+      ],
+      backHome: '← Retour à l\'accueil',
+    },
+    termsPage: {
+      label: '// Mentions légales',
+      title: 'CONDITIONS',
+      title2: "D'UTILISATION",
+      updated: 'Dernière mise à jour : 21 septembre 2026',
+      sections: [
+        {
+          heading: '1. Objet',
+          body: "Les présentes conditions générales régissent l'utilisation du site studiojrmh.fr, édité par Jérémy Hordé, photographe professionnel indépendant basé à Troyes (Aube), France. L'accès au site implique l'acceptation pleine et entière des présentes conditions.",
+        },
+        {
+          heading: '2. Édition et hébergement',
+          body: "Éditeur : Jérémy Hordé — studio.jrmh@gmail.com. Hébergement frontend : Vercel Inc. Hébergement backend et base de données : Railway Corporation. Stockage des photographies : Cloudflare Inc.",
+        },
+        {
+          heading: '3. Propriété intellectuelle',
+          body: "L'ensemble des photographies, textes, logos et éléments graphiques présents sur ce site sont la propriété exclusive de Jérémy Hordé et sont protégés par le droit d'auteur. Toute reproduction, représentation, modification ou exploitation, totale ou partielle, sans autorisation écrite préalable est strictement interdite et constitue une contrefaçon.",
+        },
+        {
+          heading: '4. Espace client et galeries photo',
+          body: "Les photographies mises à disposition dans l'espace client sont destinées à un usage personnel et privé du client. Toute utilisation commerciale, revente, ou publication publique des photographies sans l'accord écrit préalable du photographe est interdite. Les liens de partage générés depuis l'espace client sont sous la responsabilité du client qui les diffuse.",
+        },
+        {
+          heading: '5. Disponibilité du site',
+          body: "Le photographe s'efforce d'assurer l'accessibilité du site mais ne peut garantir une disponibilité continue. Le site peut être interrompu pour maintenance sans préavis. Le photographe ne saurait être tenu responsable des dommages résultant d'une indisponibilité temporaire du service.",
+        },
+        {
+          heading: '6. Liens externes',
+          body: "Le site peut contenir des liens vers des sites tiers (réseaux sociaux notamment). Le photographe n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.",
+        },
+        {
+          heading: '7. Droit applicable',
+          body: "Les présentes conditions sont soumises au droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français seront seuls compétents.",
+        },
+        {
+          heading: '8. Contact',
+          body: "Pour toute question relative aux présentes conditions, contactez studio.jrmh@gmail.com.",
+        },
+      ],
+      backHome: '← Retour à l\'accueil',
+    },
   },
   en: {
     nav: {
@@ -614,6 +706,98 @@ export const translations = {
       },
     },
     lang: { switch: 'FR', switchLabel: 'Passer en français', currentLabel: 'Current language: English' },
+    cookieBanner: {
+      text: 'This site only uses essential cookies (client area login) and cookie-less anonymous analytics. No personal data is sold or shared for advertising purposes.',
+      accept: 'Got it',
+      link: 'Learn more',
+    },
+    legalNav: { privacy: 'Privacy', terms: 'Terms of use' },
+    privacyPage: {
+      label: '// Privacy',
+      title: 'PRIVACY',
+      title2: 'POLICY',
+      updated: 'Last updated: September 21, 2026',
+      sections: [
+        {
+          heading: '1. Data controller',
+          body: 'The data controller for this site is Jérémy Hordé, a professional photographer operating as Studiø JRMH, based in Troyes (Aube), France. For any question regarding your personal data, contact studio.jrmh@gmail.com.',
+        },
+        {
+          heading: '2. Data collected',
+          body: "Contact form: name, email address, subject and message. Client area: first name, last name, email address and password (stored encrypted, never in plain text). Photo galleries: photographs taken during your sessions, linked to your client account. No banking data is collected or stored on this site.",
+        },
+        {
+          heading: '3. Purpose of processing',
+          body: 'Your data is used to respond to your enquiries, create and manage your client area access, and let you view and download your photographs. It is never used for commercial prospecting without your explicit consent.',
+        },
+        {
+          heading: '4. Legal basis',
+          body: 'Processing contact requests relies on the legitimate interest of responding to enquiries. Managing the client area and galleries relies on the performance of the photography service contract concluded with you.',
+        },
+        {
+          heading: '5. Data recipients',
+          body: "Your data is never sold. It is processed by technical providers necessary to operate the site: Brevo (transactional emails), Cloudflare (secure photo storage), Railway (server and database hosting) and Vercel (site hosting and cookie-less anonymous analytics). These providers are bound by confidentiality obligations.",
+        },
+        {
+          heading: '6. Cookies',
+          body: 'This site only uses cookies strictly necessary for it to function (keeping you signed in to the client area). No analytics or advertising cookies are set. The analytics tool used (Vercel Analytics) sets no cookies and cannot identify you individually.',
+        },
+        {
+          heading: '7. Retention period',
+          body: 'Messages sent via the contact form are kept for a maximum of 3 years. Your client account data and galleries are kept for the duration of your relationship with the photographer, then archived or deleted upon request.',
+        },
+        {
+          heading: '8. Your rights',
+          body: 'Under the General Data Protection Regulation (GDPR), you have the right to access, rectify, erase, restrict, port and object regarding your personal data. To exercise these rights, contact studio.jrmh@gmail.com. You may also lodge a complaint with the French data protection authority, the CNIL (www.cnil.fr).',
+        },
+        {
+          heading: '9. Security',
+          body: 'The entire site is served over HTTPS. Passwords are hashed and never stored in plain text. Access to your galleries is protected by authentication, and share links are individual and can be revoked at any time from your client area.',
+        },
+      ],
+      backHome: '← Back to home',
+    },
+    termsPage: {
+      label: '// Legal notice',
+      title: 'TERMS OF',
+      title2: 'USE',
+      updated: 'Last updated: September 21, 2026',
+      sections: [
+        {
+          heading: '1. Purpose',
+          body: 'These general terms govern the use of the studiojrmh.fr website, published by Jérémy Hordé, an independent professional photographer based in Troyes (Aube), France. Accessing the site implies full acceptance of these terms.',
+        },
+        {
+          heading: '2. Publisher and hosting',
+          body: 'Publisher: Jérémy Hordé — studio.jrmh@gmail.com. Frontend hosting: Vercel Inc. Backend and database hosting: Railway Corporation. Photograph storage: Cloudflare Inc.',
+        },
+        {
+          heading: '3. Intellectual property',
+          body: 'All photographs, text, logos and graphic elements on this site are the exclusive property of Jérémy Hordé and are protected by copyright. Any reproduction, representation, modification or use, in whole or in part, without prior written authorisation is strictly prohibited and constitutes infringement.',
+        },
+        {
+          heading: '4. Client area and photo galleries',
+          body: "Photographs made available in the client area are for the client's personal and private use. Any commercial use, resale, or public publication of the photographs without the photographer's prior written consent is prohibited. Share links generated from the client area are the responsibility of the client who distributes them.",
+        },
+        {
+          heading: '5. Site availability',
+          body: 'The photographer strives to ensure the site is accessible but cannot guarantee continuous availability. The site may be interrupted for maintenance without notice. The photographer cannot be held liable for damages resulting from a temporary unavailability of the service.',
+        },
+        {
+          heading: '6. External links',
+          body: 'The site may contain links to third-party sites (social networks in particular). The photographer has no control over these sites and disclaims any responsibility for their content.',
+        },
+        {
+          heading: '7. Governing law',
+          body: 'These terms are governed by French law. In the event of a dispute, and failing an amicable resolution, French courts shall have sole jurisdiction.',
+        },
+        {
+          heading: '8. Contact',
+          body: 'For any question regarding these terms, contact studio.jrmh@gmail.com.',
+        },
+      ],
+      backHome: '← Back to home',
+    },
   },
 } as const
 
