@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/api/contact', name: 'api_contact_', methods: ['POST', 'OPTIONS'])]
@@ -19,14 +20,26 @@ final class ContactController extends AbstractController
     public function __construct(
         private readonly NotificationService    $notifier,
         private readonly EntityManagerInterface $em,
+        private readonly RateLimiterFactory     $contactFormLimiter,
     ) {}
 
     #[Route('', name: 'send', methods: ['POST'])]
     public function send(Request $request): JsonResponse
     {
+        $limiter = $this->contactFormLimiter->create($request->getClientIp());
+        if (!$limiter->consume(1)->isAccepted()) {
+            return $this->json(['error' => 'Trop de messages envoyés. Réessayez plus tard.'], Response::HTTP_TOO_MANY_REQUESTS);
+        }
+
         $data = json_decode($request->getContent(), true);
         if ($data === null) {
             return $this->json(['error' => 'JSON invalide.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Honeypot : champ invisible pour les humains, rempli uniquement par les bots.
+        // On répond succès sans rien envoyer ni sauvegarder, pour ne pas révéler le piège.
+        if (trim((string) ($data['website'] ?? '')) !== '') {
+            return $this->json(['success' => true]);
         }
 
         $name    = trim((string) ($data['name']    ?? ''));

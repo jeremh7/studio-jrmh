@@ -41,6 +41,7 @@ export default function ContactPage() {
     const email   = (form.elements.namedItem('email')   as HTMLInputElement).value.trim()
     const subject = (form.elements.namedItem('subject') as HTMLInputElement).value.trim()
     const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim()
+    const website = (form.elements.namedItem('website') as HTMLInputElement).value.trim()
 
     const errs = validate(name, email, message)
     if (Object.keys(errs).length > 0) { setFormErrors(errs); return }
@@ -48,7 +49,7 @@ export default function ContactPage() {
 
     startTransition(async () => {
       try {
-        await apiContact({ name, email, subject, message })
+        await apiContact({ name, email, subject, message, website })
         setSuccess(true)
       } catch {
         setServerError(cp.errorServer)
@@ -205,6 +206,12 @@ export default function ContactPage() {
                 style={{ display: 'flex', flexDirection: 'column', gap: 22 }}
                 initial={{ opacity: 1 }}
               >
+                {/* Honeypot anti-spam — invisible et ignoré par les humains, rempli par les bots */}
+                <input
+                  type="text" name="website" id="website" tabIndex={-1} autoComplete="off" aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+                />
+
                 <AnimatePresence>
                   {serverError && (
                     <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}

@@ -78,6 +78,7 @@ export async function apiContact(data: {
   email: string
   subject: string
   message: string
+  website?: string // honeypot — doit rester vide, rempli uniquement par les bots
 }): Promise<void> {
   await apiFetch('/api/contact', {
     method: 'POST',
