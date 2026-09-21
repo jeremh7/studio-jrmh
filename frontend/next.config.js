@@ -1,7 +1,37 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
+const SECURITY_HEADERS = [
+  { key: 'X-Frame-Options', value: 'DENY' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(), camera=()' },
+  {
+    // 'unsafe-inline' requis : le site utilise des styles React inline et des
+    // blocs <style> pour les hover/media/keyframes, sans nonces — durcir plus
+    // demanderait un refactor complet du CSS du site.
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' data: https:",
+      "font-src 'self' data: https://fonts.gstatic.com",
+      `connect-src 'self' ${API_URL}`,
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join('; '),
+  },
+]
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async headers() {
+    // La CSP bloque eval(), utilisé par le Fast Refresh de `next dev` — on ne
+    // durcit qu'en production pour ne pas casser le hot-reload en local.
+    if (process.env.NODE_ENV !== 'production') return []
+    return [{ source: '/:path*', headers: SECURITY_HEADERS }]
+  },
   async rewrites() {
     return [
       { source: '/admin', destination: `${API_URL}/admin` },
