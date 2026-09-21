@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { LangProvider } from '@/lib/LangContext'
 import { SessionProvider } from 'next-auth/react'
@@ -166,6 +167,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <LayoutClient>{children}</LayoutClient>
           </LangProvider>
         </SessionProvider>
+        <Analytics />
       </body>
     </html>
   )
