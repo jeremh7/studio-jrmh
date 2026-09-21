@@ -58,7 +58,7 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
         style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px', zIndex: 10 }}
         onClick={e => e.stopPropagation()}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.25)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.55)' }}>
           {String(index + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
         </span>
         <button
@@ -87,7 +87,7 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
           priority
         />
         {photo.caption && (
-          <div style={{ position: 'absolute', bottom: -28, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.3)' }}>
+          <div style={{ position: 'absolute', bottom: -28, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)' }}>
             {photo.caption}
           </div>
         )}
@@ -112,7 +112,7 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
         </>
       )}
 
-      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.08)', whiteSpace: 'nowrap' }}>
+      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', whiteSpace: 'nowrap' }}>
         {strings.navHint}
       </div>
     </motion.div>
@@ -144,12 +144,12 @@ function Photo({ photo, index, onClick }: { photo: ProjectPhoto; index: number; 
           className="thumb-img"
         />
         <div className="thumb-overlay" style={{ position: 'absolute', inset: 0, opacity: 0, background: 'rgba(8,8,8,0.3)', transition: 'opacity 0.2s' }} />
-        <div style={{ position: 'absolute', top: 8, left: 10, fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.1em', color: 'rgba(255,255,255,0)', transition: 'color 0.2s' }} className="thumb-num">
+        <div style={{ position: 'absolute', top: 8, left: 10, fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)', transition: 'color 0.2s' }} className="thumb-num">
           {String(index + 1).padStart(2, '0')}
         </div>
       </div>
       {photo.caption && (
-        <div style={{ padding: '5px 2px', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.18)' }}>
+        <div style={{ padding: '5px 2px', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)' }}>
           {photo.caption}
         </div>
       )}
@@ -198,14 +198,14 @@ function Hero({ project, backLabel, scrollLabel, photoSingular, photoPlural }: {
           transition={{ duration: 0.5 }}
           style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}
         >
-          <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', textDecoration: 'none', transition: 'color 0.15s' }}
+          <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.7)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.28)'}
           >
             {backLabel}
           </Link>
-          <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: 10 }}>/</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.65)' }}>
+          <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 10 }}>/</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)' }}>
             {project.categoryLabel}
           </span>
         </motion.div>
@@ -226,16 +226,16 @@ function Hero({ project, backLabel, scrollLabel, photoSingular, photoPlural }: {
           style={{ display: 'flex', gap: 24, marginTop: 18, flexWrap: 'wrap', alignItems: 'center' }}
         >
           {project.location && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.3)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.6)' }}>
               ◎ {project.location}
             </span>
           )}
           {project.eventDate && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.25)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.55)' }}>
               {project.eventDate}
             </span>
           )}
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.2)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.12em', color: 'rgba(255,255,255,0.55)' }}>
             {(project.photos ?? []).length} {(project.photos ?? []).length !== 1 ? photoPlural : photoSingular}
           </span>
         </motion.div>
@@ -248,7 +248,7 @@ function Hero({ project, backLabel, scrollLabel, photoSingular, photoPlural }: {
         transition={{ delay: 1.1, duration: 0.6 }}
         style={{ position: 'absolute', right: 'clamp(16px,3vw,32px)', bottom: 'clamp(24px,4vh,40px)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)', writingMode: 'vertical-rl' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', writingMode: 'vertical-rl' }}>
           {scrollLabel}
         </span>
         <motion.div
@@ -284,7 +284,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.15)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.5)' }}>
           {pp.loading}
         </span>
       </div>
@@ -297,7 +297,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(64px,12vw,100px)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.08)' }}>
           404
         </span>
-        <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>
+        <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>
           {pp.notFound}
         </Link>
       </div>
@@ -339,7 +339,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
             style={{ padding: 'clamp(48px,7vw,80px) clamp(20px,5vw,64px) 0', maxWidth: 680 }}
           >
             <div style={{ width: 28, height: '0.5px', background: 'rgba(212,168,67,0.5)', marginBottom: 24 }} />
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(14px,1.6vw,17px)', lineHeight: 1.9, color: 'rgba(255,255,255,0.45)', margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(14px,1.6vw,17px)', lineHeight: 1.9, color: 'rgba(255,255,255,0.65)', margin: 0 }}>
               {project.description}
             </p>
           </motion.div>
@@ -363,13 +363,13 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
           borderTop: '0.5px solid rgba(255,255,255,0.05)',
           marginTop: 'clamp(40px,6vw,80px)',
         }}>
-          <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', textDecoration: 'none', transition: 'color 0.15s' }}
+          <Link href="/work" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.7)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.28)'}
           >
             {pp.allProjects}
           </Link>
-          <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(14px,2.5vw,22px)', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.06)' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(14px,2.5vw,22px)', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.5)' }}>
             STUDIØ JRMH
           </div>
         </div>
@@ -379,7 +379,7 @@ export default function ProjectPage({ params }: { params: Promise<{ slug: string
         .thumb-img { transform: scale(1); }
         .photo-thumb:hover .thumb-img { transform: scale(1.03); }
         .photo-thumb:hover .thumb-overlay { opacity: 1 !important; }
-        .photo-thumb:hover .thumb-num { color: rgba(255,255,255,0.4) !important; }
+        .photo-thumb:hover .thumb-num { color: rgba(255,255,255,0.65) !important; }
       `}</style>
     </>
   )

@@ -42,7 +42,7 @@ export default function CookieBanner() {
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap',
           }}
         >
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.04em', lineHeight: 1.7, color: 'rgba(255,255,255,0.45)', margin: 0, maxWidth: 640, flex: '1 1 320px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.04em', lineHeight: 1.7, color: 'rgba(255,255,255,0.65)', margin: 0, maxWidth: 640, flex: '1 1 320px' }}>
             {t.cookieBanner.text}{' '}
             <Link href="/confidentialite" style={{ color: 'rgba(212,168,67,0.8)', textDecoration: 'underline', textUnderlineOffset: 2 }}>
               {t.cookieBanner.link}

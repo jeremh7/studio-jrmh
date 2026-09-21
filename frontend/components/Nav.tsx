@@ -142,7 +142,7 @@ export default function Nav() {
         .nav-link-item {
           font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.2em;
           text-transform: uppercase; text-decoration: none;
-          color: rgba(255,255,255,0.4); position: relative; display: inline-block;
+          color: rgba(255,255,255,0.65); position: relative; display: inline-block;
           transition: color 0.15s; padding-bottom: 3px; border-bottom: 0.5px solid transparent;
         }
         .nav-link-item:hover { color: rgba(255,255,255,0.8); }
@@ -150,16 +150,16 @@ export default function Nav() {
         .nav-link-item:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
         .lang-btn {
           font-family: var(--font-mono); font-size: 8.5px; letter-spacing: 0.2em;
-          text-transform: uppercase; color: rgba(255,255,255,0.35);
+          text-transform: uppercase; color: rgba(255,255,255,0.6);
           background: none; border: 0.5px solid rgba(255,255,255,0.14);
           padding: 6px 10px; cursor: pointer; transition: color 0.15s, border-color 0.15s;
           min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;
         }
-        .lang-btn:hover { color: #fff; border-color: rgba(255,255,255,0.45); }
+        .lang-btn:hover { color: #fff; border-color: rgba(255,255,255,0.65); }
         .lang-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
         .nav-signout {
           font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.18em;
-          text-transform: uppercase; color: rgba(255,255,255,0.2);
+          text-transform: uppercase; color: rgba(255,255,255,0.55);
           background: none; border: none; cursor: pointer; transition: color 0.15s; padding: 4px 2px;
         }
         .nav-signout:hover { color: rgba(255,255,255,0.6); }
@@ -234,7 +234,7 @@ export default function Nav() {
                 aria-label={t.nav.ariaClient}
                 style={{
                   fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.18em',
-                  textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)',
+                  textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)',
                   textDecoration: 'none', border: '0.5px solid rgba(255,255,255,0.14)',
                   padding: '7px 14px', transition: 'color 0.15s, border-color 0.15s', flexShrink: 0,
                 }}
@@ -309,7 +309,7 @@ export default function Nav() {
                   onMouseEnter={e => { if (path !== href) e.currentTarget.style.color = 'rgba(255,255,255,0.65)' }}
                   onMouseLeave={e => { if (path !== href) e.currentTarget.style.color = 'rgba(255,255,255,0.25)' }}
                 >
-                  <span aria-hidden="true" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.18)', alignSelf: 'center' }}>
+                  <span aria-hidden="true" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.5)', alignSelf: 'center' }}>
                     0{i + 1}
                   </span>
                   {label}
@@ -328,14 +328,14 @@ export default function Nav() {
             {isLoggedIn ? (
               <button
                 onClick={() => signOut({ callbackUrl: '/login' })}
-                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', background: 'none', border: 'none', cursor: 'pointer' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', background: 'none', border: 'none', cursor: 'pointer' }}
               >
                 Déconnexion
               </button>
             ) : (
               <Link
                 href="/login"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.65)', textDecoration: 'none' }}
               >
                 {t.nav.access}
               </Link>
@@ -351,7 +351,7 @@ export default function Nav() {
               >
                 {t.lang.switch}
               </button>
-              <span aria-hidden="true" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.15)' }}>
+              <span aria-hidden="true" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.5)' }}>
                 © 2025 JRMH
               </span>
             </div>

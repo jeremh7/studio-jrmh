@@ -69,7 +69,7 @@ function GalleryCard({ gallery, index }: { gallery: Gallery; index: number }) {
       return { text: cp.expiryUnlimited, color: 'rgba(92,245,160,0.4)' }
     }
     if (isAccessible && gallery.expiresAt) {
-      return { text: `${cp.expiryUntil} ${fmtDateShort(gallery.expiresAt, locale)}`, color: 'rgba(236,232,223,0.25)' }
+      return { text: `${cp.expiryUntil} ${fmtDateShort(gallery.expiresAt, locale)}`, color: 'rgba(236,232,223,0.55)' }
     }
     return null
   })()
@@ -134,7 +134,7 @@ function GalleryCard({ gallery, index }: { gallery: Gallery; index: number }) {
                   {gallery.title}
                 </p>
                 {gallery.sessionDate && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.2)', marginTop: 6 }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.55)', marginTop: 6 }}>
                     {fmtDate(gallery.sessionDate, locale)}
                   </p>
                 )}
@@ -161,7 +161,7 @@ function GalleryCard({ gallery, index }: { gallery: Gallery; index: number }) {
 
             {/* Compteur photos */}
             <div style={{ marginBottom: isAccessible || isExpired ? 20 : 0 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)', display: 'block', marginBottom: 4 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', display: 'block', marginBottom: 4 }}>
                 {cp.photoLabel}
               </span>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 22, letterSpacing: '0.04em', color: isAccessible ? 'rgba(236,232,223,0.75)' : 'rgba(236,232,223,0.2)' }}>
@@ -171,7 +171,7 @@ function GalleryCard({ gallery, index }: { gallery: Gallery; index: number }) {
 
             {/* Message contextuel pour les états non-accessibles */}
             {!isAccessible && !isExpired && (
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', lineHeight: 1.7, color: 'rgba(236,232,223,0.2)', marginTop: 4 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', lineHeight: 1.7, color: 'rgba(236,232,223,0.55)', marginTop: 4 }}>
                 {cp.pendingMsg.split('\n').map((l, i) => <span key={i}>{l}{i === 0 && <br />}</span>)}
               </p>
             )}
@@ -225,7 +225,7 @@ export default function ClientDashboard() {
       <div style={{ minHeight: '100svh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
           <div style={{ width: 1, height: 48, background: 'rgba(212,168,67,0.3)', animation: 'pulse 1.5s ease-in-out infinite' }} />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)' }}>
             {t.clientPage.loading}
           </span>
         </motion.div>
@@ -302,7 +302,7 @@ export default function ClientDashboard() {
 
             <motion.button
               onClick={() => signOut({ callbackUrl: '/login' })}
-              style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)', background: 'none', border: '0.5px solid rgba(236,232,223,0.08)', cursor: 'pointer', padding: '9px 16px', transition: 'color 0.15s, border-color 0.15s' }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', background: 'none', border: '0.5px solid rgba(236,232,223,0.08)', cursor: 'pointer', padding: '9px 16px', transition: 'color 0.15s, border-color 0.15s' }}
               onMouseEnter={e => { e.currentTarget.style.color = 'rgba(236,232,223,0.55)'; e.currentTarget.style.borderColor = 'rgba(236,232,223,0.25)' }}
               onMouseLeave={e => { e.currentTarget.style.color = 'rgba(236,232,223,0.2)'; e.currentTarget.style.borderColor = 'rgba(236,232,223,0.08)' }}
               initial={{ opacity: 0 }}
@@ -323,7 +323,7 @@ export default function ClientDashboard() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
             >
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.7)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', margin: 0 }}>
                 {cp.verifyEmail}
               </p>
               <Link href="/client/verify-email" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.9)', textDecoration: 'none' }}>
@@ -346,7 +346,7 @@ export default function ClientDashboard() {
             { label: cp.statsMember,    value: fmtDateShort(client.createdAt, locale), mono: true },
           ].map(({ label, value, mono }) => (
             <div key={label} style={{ background: '#080808', padding: '20px 20px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)', display: 'block', marginBottom: 8 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', display: 'block', marginBottom: 8 }}>
                 {label}
               </span>
               <span style={{ fontFamily: mono ? 'var(--font-mono)' : 'var(--font-display)', fontSize: mono ? 10 : 22, letterSpacing: mono ? '0.04em' : '0.04em', color: 'rgba(236,232,223,0.6)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', display: 'block' }}>
@@ -365,11 +365,11 @@ export default function ClientDashboard() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.6 }}
           >
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.7)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)' }}>
               {cp.galleriesLabel}
             </span>
             {galleries.length > 0 && (
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.15)' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.5)' }}>
                 {galleries.length} {galleries.length > 1 ? cp.galleryPlural : cp.gallerySingular}
               </span>
             )}
@@ -394,7 +394,7 @@ export default function ClientDashboard() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 7vw, 64px)', letterSpacing: '0.06em', color: 'transparent', WebkitTextStroke: '1px rgba(236,232,223,0.07)' }}>
                 {cp.emptyGhost}
               </div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', textAlign: 'center' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', textAlign: 'center' }}>
                 {cp.emptyMsg.split('\n').map((l, i) => <span key={i}>{l}{i === 0 && <br />}</span>)}
               </p>
             </motion.div>
@@ -416,7 +416,7 @@ export default function ClientDashboard() {
           {/* Galeries en attente */}
           {pendingGalleries.length > 0 && (
             <div style={{ marginBottom: 40 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.5)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', background: 'rgba(212,168,67,0.5)' }} />
                 {cp.pendingLabel}
               </div>
@@ -442,10 +442,10 @@ export default function ClientDashboard() {
 
         {/* ── Footer ─────────────────────────────────────────────── */}
         <div style={{ marginTop: 80, paddingTop: 24, borderTop: '0.5px solid rgba(236,232,223,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)' }}>
             © {new Date().getFullYear()} Studiø.JRMH
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)' }}>
             {cp.footerSecure}
           </span>
         </div>

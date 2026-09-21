@@ -70,7 +70,7 @@ export default function ContactPage() {
   const labelStyle: React.CSSProperties = {
     display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8,
     letterSpacing: '0.2em', textTransform: 'uppercase',
-    color: 'rgba(236,232,223,0.3)', marginBottom: 10,
+    color: 'rgba(236,232,223,0.6)', marginBottom: 10,
   }
 
   return (
@@ -139,7 +139,7 @@ export default function ContactPage() {
           </div>
 
           <motion.p
-            style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(13px,1.4vw,15px)', lineHeight: 1.85, color: 'rgba(255,255,255,0.45)', fontStyle: 'italic', maxWidth: 320, marginBottom: 40 }}
+            style={{ fontFamily: 'var(--font-body)', fontSize: 'clamp(13px,1.4vw,15px)', lineHeight: 1.85, color: 'rgba(255,255,255,0.65)', fontStyle: 'italic', maxWidth: 320, marginBottom: 40 }}
             initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7 }}
           >
@@ -151,14 +151,14 @@ export default function ContactPage() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
           >
             <a href="mailto:studio.jrmh@gmail.com"
-              style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.35)', textDecoration: 'none', transition: 'color 0.15s' }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}
               onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.8)'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.35)'}
             >
               {cp.footerLeft}
             </a>
             <a href="https://instagram.com/p.jrmh0" target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.35)', textDecoration: 'none', transition: 'color 0.15s' }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}
               onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.8)'}
               onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.35)'}
             >
@@ -190,11 +190,11 @@ export default function ContactPage() {
                     {cp.successLabel}
                   </span>
                 </div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.4)', marginBottom: 28 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.65)', marginBottom: 28 }}>
                   {cp.successMsg}
                 </p>
                 <button onClick={() => setSuccess(false)}
-                  style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.15s', padding: 0 }}
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', background: 'none', border: 'none', cursor: 'pointer', transition: 'color 0.15s', padding: 0 }}
                   onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.8)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.3)'}
                 >
@@ -313,7 +313,7 @@ export default function ContactPage() {
       </div>
 
       <style>{`
-        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.1); }
+        input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.5); }
         @media (max-width: 680px) {
           .contact-grid { grid-template-columns: 1fr !important; }
         }

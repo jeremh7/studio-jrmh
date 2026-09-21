@@ -184,7 +184,7 @@ function LoginPageContent() {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', marginBottom: 10 }}>
+              <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', marginBottom: 10 }}>
                 {t.loginPage.emailLabel}
               </label>
               <input
@@ -208,7 +208,7 @@ function LoginPageContent() {
 
             {/* Mot de passe */}
             <div>
-              <label htmlFor="password" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', marginBottom: 10 }}>
+              <label htmlFor="password" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', marginBottom: 10 }}>
                 {t.loginPage.passwordLabel}
               </label>
               <div style={{ position: 'relative' }}>
@@ -258,7 +258,7 @@ function LoginPageContent() {
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, color: '#c04830', marginTop: 5, letterSpacing: '0.1em' }}>{formErrors.password}</p>
               )}
               <div style={{ textAlign: 'right', marginTop: 8 }}>
-                <Link href="/forgot-password" style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', textDecoration: 'none', transition: 'color 0.15s' }}
+                <Link href="/forgot-password" style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', textDecoration: 'none', transition: 'color 0.15s' }}
                   onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.6)'}
                   onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.18)'}
                 >
@@ -292,10 +292,10 @@ function LoginPageContent() {
 
         {/* Footer panel */}
         <div style={{ marginTop: 28, paddingTop: 20, borderTop: '0.5px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {t.loginPage.footerLeft}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {t.loginPage.footerRight}
           </span>
         </div>
@@ -308,11 +308,11 @@ function LoginPageContent() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.15)' }}>STUDIØ.JRMH</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>STUDIØ.JRMH</span>
       </motion.div>
 
       <style>{`
-        input::placeholder { color: rgba(255,255,255,0.1); }
+        input::placeholder { color: rgba(255,255,255,0.5); }
       `}</style>
     </div>
   )

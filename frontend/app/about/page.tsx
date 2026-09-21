@@ -137,7 +137,7 @@ export default function AboutPage() {
           <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 40%)' }} />
 
           {/* Badge coin */}
-          <span aria-hidden="true" style={{ position: 'absolute', top: 80, right: 24, fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)', border: '0.5px solid rgba(255,255,255,0.12)', padding: '5px 10px' }}>
+          <span aria-hidden="true" style={{ position: 'absolute', top: 80, right: 24, fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', border: '0.5px solid rgba(255,255,255,0.12)', padding: '5px 10px' }}>
             STUDIØ.JRMH
           </span>
 
@@ -154,7 +154,7 @@ export default function AboutPage() {
               animate={{ height: 36 }}
               transition={{ duration: 0.8, delay: 1.6 }}
             />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.18)' }}>{t.aboutPage.scroll}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>{t.aboutPage.scroll}</span>
           </motion.div>
         </div>
       </section>
@@ -162,7 +162,7 @@ export default function AboutPage() {
       {/* ── Disciplines ────────────────────────────────────────── */}
       <section style={{ borderTop: '0.5px solid rgba(255,255,255,0.06)', padding: 'clamp(48px,7vw,72px) clamp(20px,5vw,48px)' }}>
         <Reveal>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.7)', marginBottom: 32 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', marginBottom: 32 }}>
             {t.aboutPage.disciplinesLabel}
           </p>
         </Reveal>
@@ -175,7 +175,7 @@ export default function AboutPage() {
                 style={{
                   fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em',
                   textTransform: 'uppercase', padding: '8px 16px',
-                  color: 'rgba(255,255,255,0.45)',
+                  color: 'rgba(255,255,255,0.65)',
                   border: '0.5px solid rgba(255,255,255,0.1)',
                   transition: 'color 0.15s, border-color 0.15s',
                 }}
@@ -215,7 +215,7 @@ export default function AboutPage() {
           ].map((item, i) => (
             <Reveal key={item.label} delay={i * 0.08}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 24, paddingBottom: 16, borderBottom: '0.5px solid rgba(255,255,255,0.06)' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)', minWidth: 80 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', minWidth: 80 }}>
                   {item.label}
                 </span>
                 {item.href ? (

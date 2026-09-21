@@ -43,7 +43,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               />
             ) : (
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#111' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.04)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.5)' }}>
                   {project.categoryLabel.toUpperCase()}
                 </span>
               </div>
@@ -84,12 +84,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           <div style={{ padding: '12px 2px 28px' }}>
             <div style={{
               fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em',
-              textTransform: 'uppercase', color: 'rgba(212,168,67,0.6)',
+              textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)',
               marginBottom: 5, display: 'flex', gap: 10, alignItems: 'center',
             }}>
               {project.categoryLabel}
               {project.eventDate && (
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>{project.eventDate}</span>
+                <span style={{ color: 'rgba(255,255,255,0.55)' }}>{project.eventDate}</span>
               )}
             </div>
             <div style={{
@@ -102,7 +102,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.location && (
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em',
-                color: 'rgba(255,255,255,0.2)', marginTop: 6,
+                color: 'rgba(255,255,255,0.55)', marginTop: 6,
               }}>
                 {project.location}
               </div>
@@ -146,7 +146,7 @@ export default function WorkPage() {
         {/* Header */}
         <div style={{ padding: 'clamp(40px,6vw,64px) clamp(20px,5vw,48px) 0' }}>
           <motion.div
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.7)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
             initial={{ opacity: 0, x: -12 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -196,7 +196,7 @@ export default function WorkPage() {
         {/* Grille */}
         <div style={{ padding: 'clamp(24px,4vw,40px) clamp(20px,5vw,48px) 80px' }}>
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '100px 0', fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.2)' }}>
+            <div style={{ textAlign: 'center', padding: '100px 0', fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', color: 'rgba(255,255,255,0.55)' }}>
               {t.portfolio.loading}
             </div>
           ) : projects.length === 0 ? (
@@ -204,7 +204,7 @@ export default function WorkPage() {
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px,8vw,80px)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.06)', marginBottom: 20 }}>
                 {t.portfolio.emptyGhost}
               </div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.2)' }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', color: 'rgba(255,255,255,0.55)' }}>
                 {t.portfolio.emptyMsg}
               </p>
             </div>

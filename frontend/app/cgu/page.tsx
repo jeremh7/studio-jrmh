@@ -23,7 +23,7 @@ export default function TermsPage() {
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 720, margin: '0 auto', padding: 'clamp(40px,6vw,64px) clamp(20px,5vw,32px) 100px' }}>
 
         <motion.div
-          style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.7)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
+          style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 12 }}
           initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}
         >
           <span style={{ display: 'block', width: 20, height: '0.5px', background: 'rgba(212,168,67,0.6)' }} />
@@ -44,7 +44,7 @@ export default function TermsPage() {
           {p.title2}
         </motion.h1>
 
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.25)', marginTop: 24, marginBottom: 48 }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.55)', marginTop: 24, marginBottom: 48 }}>
           {p.updated}
         </p>
 
@@ -67,7 +67,7 @@ export default function TermsPage() {
         </div>
 
         <div style={{ marginTop: 64, paddingTop: 28, borderTop: '0.5px solid rgba(255,255,255,0.07)' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.15s' }}
+          <Link href="/" style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.8)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
           >

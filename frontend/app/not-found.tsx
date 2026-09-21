@@ -69,7 +69,7 @@ export default function NotFound() {
         </div>
 
         <motion.p
-          style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', lineHeight: 1.8, color: 'rgba(236,232,223,0.3)', marginBottom: 40 }}
+          style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.08em', lineHeight: 1.8, color: 'rgba(236,232,223,0.6)', marginBottom: 40 }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.7 }}
@@ -93,7 +93,7 @@ export default function NotFound() {
           </Link>
           <Link
             href="/work"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.25)', textDecoration: 'none', transition: 'color 0.15s' }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', textDecoration: 'none', transition: 'color 0.15s' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(236,232,223,0.6)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.25)'}
           >
@@ -109,7 +109,7 @@ export default function NotFound() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
           STUDIØ.JRMH
         </span>
       </motion.div>

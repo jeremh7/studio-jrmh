@@ -68,7 +68,7 @@ function Lightbox({ photos, index, onClose, onNav, ariaClose, ariaPrev, ariaNext
         onClick={e => e.stopPropagation()}
       >
         {/* Compteur */}
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(236,232,223,0.3)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(236,232,223,0.6)' }}>
           {String(index + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
         </span>
 
@@ -112,7 +112,7 @@ function Lightbox({ photos, index, onClose, onNav, ariaClose, ariaPrev, ariaNext
           style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', display: 'block' }}
         />
         {photo.caption && (
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', textAlign: 'center', color: 'rgba(236,232,223,0.3)', marginTop: 10 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', textAlign: 'center', color: 'rgba(236,232,223,0.6)', marginTop: 10 }}>
             {photo.caption}
           </p>
         )}
@@ -140,7 +140,7 @@ function Lightbox({ photos, index, onClose, onNav, ariaClose, ariaPrev, ariaNext
 
       {/* Hint clavier — discret en bas */}
       <div
-        style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.1)' }}
+        style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)' }}
         onClick={e => e.stopPropagation()}
       >
         {navHint}
@@ -195,7 +195,7 @@ export default function GalleryPage() {
   if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(236,232,223,0.2)' }}>
+        <span className="font-mono text-[9px] tracking-[0.2em] uppercase" style={{ color: 'rgba(236,232,223,0.55)' }}>
           {gp.loading}
         </span>
       </div>
@@ -205,7 +205,7 @@ export default function GalleryPage() {
   if (error || !data) {
     return (
       <div className="min-h-screen pt-[80px] px-7 pt-10">
-        <Link href="/client" className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(212,168,67,0.6)', textDecoration: 'none' }}>
+        <Link href="/client" className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(212,168,67,0.75)', textDecoration: 'none' }}>
           {gp.back}
         </Link>
         <p className="font-mono text-[9px] tracking-[0.12em] uppercase mt-6" style={{ color: '#c04830' }}>
@@ -271,7 +271,7 @@ export default function GalleryPage() {
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 28, letterSpacing: '0.04em', lineHeight: 1, marginBottom: 16 }}>
                 {gp.revokeTitle}
               </h3>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.8, color: 'rgba(236,232,223,0.35)', marginBottom: 28 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.8, color: 'rgba(236,232,223,0.6)', marginBottom: 28 }}>
                 {gp.revokeBody.split('\n').map((l, i) => <span key={i}>{l}{i === 0 && <br />}</span>)}
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
@@ -280,7 +280,7 @@ export default function GalleryPage() {
                   disabled={shareLoading}
                   style={{
                     flex: 1, fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase',
-                    color: 'rgba(236,232,223,0.4)', background: 'transparent',
+                    color: 'rgba(236,232,223,0.65)', background: 'transparent',
                     border: '0.5px solid rgba(236,232,223,0.1)', padding: '13px 0',
                     cursor: 'pointer', transition: 'all 0.15s',
                   }}
@@ -335,7 +335,7 @@ export default function GalleryPage() {
           <Link
             href="/client"
             className="font-mono text-[8px] tracking-[0.2em] uppercase mb-6 inline-flex items-center gap-2 transition-colors"
-            style={{ color: 'rgba(236,232,223,0.25)', textDecoration: 'none' }}
+            style={{ color: 'rgba(236,232,223,0.55)', textDecoration: 'none' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.7)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.25)'}
           >
@@ -343,7 +343,7 @@ export default function GalleryPage() {
           </Link>
 
           <div className="mt-4">
-            <div className="font-mono text-[9px] tracking-[0.28em] uppercase mb-2" style={{ color: 'rgba(212,168,67,0.7)' }}>
+            <div className="font-mono text-[9px] tracking-[0.28em] uppercase mb-2" style={{ color: 'rgba(212,168,67,0.75)' }}>
               {gp.label}
             </div>
             <h1
@@ -356,11 +356,11 @@ export default function GalleryPage() {
             {/* Méta */}
             <div className="flex flex-wrap items-center gap-5">
               {gallery.sessionDate && (
-                <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.3)' }}>
+                <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.6)' }}>
                   {fmtDate(gallery.sessionDate, locale)}
                 </span>
               )}
-              <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.3)' }}>
+              <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.6)' }}>
                 {photos.length} {photos.length > 1 ? gp.photoPlural : gp.photoSingular}
               </span>
               {(() => {
@@ -377,7 +377,7 @@ export default function GalleryPage() {
                   </span>
                 )
                 return (
-                  <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.2)' }}>
+                  <span className="font-mono text-[9px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.55)' }}>
                     {gp.expiryUntilPrefix} {fmtDate(gallery.expiresAt, locale)}
                   </span>
                 )
@@ -409,7 +409,7 @@ export default function GalleryPage() {
             })()}
 
             {gallery.description && (
-              <p className="font-mono text-[10px] tracking-[0.06em] mt-4 leading-relaxed" style={{ color: 'rgba(236,232,223,0.35)', maxWidth: 600 }}>
+              <p className="font-mono text-[10px] tracking-[0.06em] mt-4 leading-relaxed" style={{ color: 'rgba(236,232,223,0.6)', maxWidth: 600 }}>
                 {gallery.description}
               </p>
             )}
@@ -429,7 +429,7 @@ export default function GalleryPage() {
             {/* ── Col gauche : téléchargement ── */}
             {gallery.downloadEnabled && (
               <div style={{ flex: '1 1 260px' }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', marginBottom: 16 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', marginBottom: 16 }}>
                   {gp.downloadLabel}
                 </p>
                 <button
@@ -465,7 +465,7 @@ export default function GalleryPage() {
                   ) : (
                     <>
                       {gp.downloadBtn}
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7, color: 'rgba(212,168,67,0.45)', letterSpacing: '0.1em' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7, color: 'rgba(212,168,67,0.75)', letterSpacing: '0.1em' }}>
                         ({photos.length} photos)
                       </span>
                     </>
@@ -476,14 +476,14 @@ export default function GalleryPage() {
 
             {/* ── Col droite : partage ── */}
             <div style={{ flex: '1 1 260px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', marginBottom: 16 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', marginBottom: 16 }}>
               {gp.shareLabel}
             </p>
 
             {!shareToken ? (
               /* ── Pas de lien actif ── */
               <div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', color: 'rgba(236,232,223,0.22)', marginBottom: 20, lineHeight: 1.8 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', color: 'rgba(236,232,223,0.55)', marginBottom: 20, lineHeight: 1.8 }}>
                   {gp.shareDesc.split('\n').map((l, i) => <span key={i}>{l}{i < 2 && <br />}</span>)}
                 </p>
                 <button
@@ -523,7 +523,7 @@ export default function GalleryPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
                   <div style={{
                     fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.06em',
-                    color: 'rgba(236,232,223,0.35)', background: 'rgba(255,255,255,0.03)',
+                    color: 'rgba(236,232,223,0.6)', background: 'rgba(255,255,255,0.03)',
                     border: '0.5px solid rgba(236,232,223,0.08)', padding: '10px 14px',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 320,
                   }}>
@@ -572,7 +572,7 @@ export default function GalleryPage() {
         {/* Grille photos */}
         {photos.length === 0 ? (
           <div className="px-7 py-16 text-center">
-            <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: 'rgba(236,232,223,0.18)' }}>
+            <p className="font-mono text-[9px] tracking-[0.15em] uppercase" style={{ color: 'rgba(236,232,223,0.5)' }}>
               {gp.emptyMsg}
             </p>
           </div>
@@ -615,7 +615,7 @@ export default function GalleryPage() {
                 </div>
                 <div
                   className="absolute top-2 left-2 font-mono text-[7px] tracking-[0.1em] opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ color: 'rgba(236,232,223,0.4)' }}
+                  style={{ color: 'rgba(236,232,223,0.65)' }}
                 >
                   {String(i + 1).padStart(2, '0')}
                 </div>

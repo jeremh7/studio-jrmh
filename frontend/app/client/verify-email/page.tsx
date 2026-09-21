@@ -61,7 +61,7 @@ function VerifyEmailContent() {
                 {vp.loadingTitle2}
               </span>
             </h1>
-            <p className="font-mono text-[10px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.3)' }}>
+            <p className="font-mono text-[10px] tracking-[0.1em]" style={{ color: 'rgba(236,232,223,0.6)' }}>
               {vp.loadingMsg}
             </p>
           </>
@@ -75,7 +75,7 @@ function VerifyEmailContent() {
                 {vp.successTitle2}
               </span>
             </h1>
-            <p className="font-mono text-[10px] tracking-[0.08em] mb-8 leading-relaxed" style={{ color: 'rgba(236,232,223,0.4)' }}>
+            <p className="font-mono text-[10px] tracking-[0.08em] mb-8 leading-relaxed" style={{ color: 'rgba(236,232,223,0.65)' }}>
               {message || vp.successFallback}
             </p>
             <Link
@@ -102,7 +102,7 @@ function VerifyEmailContent() {
             <button
               onClick={() => setState('resend')}
               className="font-mono text-[9px] tracking-[0.2em] uppercase"
-              style={{ color: 'rgba(212,168,67,0.7)', background: 'none', border: 'none', cursor: 'pointer' }}
+              style={{ color: 'rgba(212,168,67,0.75)', background: 'none', border: 'none', cursor: 'pointer' }}
             >
               {vp.resendBtn}
             </button>
@@ -124,12 +124,12 @@ function VerifyEmailContent() {
               </p>
             ) : (
               <form onSubmit={handleResend} className="space-y-5">
-                <p className="font-mono text-[10px] tracking-[0.06em] leading-relaxed" style={{ color: 'rgba(236,232,223,0.3)' }}>
+                <p className="font-mono text-[10px] tracking-[0.06em] leading-relaxed" style={{ color: 'rgba(236,232,223,0.6)' }}>
                   {vp.resendDesc}
                 </p>
                 {!session?.client.email && (
                   <div>
-                    <label className="font-mono text-[8px] tracking-[0.2em] uppercase block mb-2" style={{ color: 'rgba(236,232,223,0.3)' }}>
+                    <label className="font-mono text-[8px] tracking-[0.2em] uppercase block mb-2" style={{ color: 'rgba(236,232,223,0.6)' }}>
                       {vp.emailLabel}
                     </label>
                     <input
@@ -154,7 +154,7 @@ function VerifyEmailContent() {
             )}
 
             <div className="mt-8">
-              <Link href="/client" className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(236,232,223,0.2)', textDecoration: 'none' }}>
+              <Link href="/client" className="font-mono text-[8px] tracking-[0.15em] uppercase" style={{ color: 'rgba(236,232,223,0.55)', textDecoration: 'none' }}>
                 {vp.backDashboard}
               </Link>
             </div>

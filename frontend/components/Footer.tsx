@@ -15,13 +15,13 @@ export default function Footer() {
 
   const legalLinkStyle: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase',
-    color: 'rgba(255,255,255,0.25)', textDecoration: 'none', transition: 'color 0.15s',
+    color: 'rgba(255,255,255,0.55)', textDecoration: 'none', transition: 'color 0.15s',
   }
 
   return (
     <footer role="contentinfo" style={{ padding: '18px clamp(20px,5vw,32px)', borderTop: '0.5px solid rgba(240,240,240,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(14px,3vw,20px)', flexWrap: 'wrap' }}>
-        <small style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)' }}>
+        <small style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)' }}>
           {t.footer.copy}
         </small>
         <Link href="/confidentialite" style={legalLinkStyle} onMouseEnter={handleEnter} onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.25)'}>
@@ -35,7 +35,7 @@ export default function Footer() {
         <ul style={{ display: 'flex', gap: 'clamp(14px,3vw,24px)', listStyle: 'none', padding: 0, margin: 0 }}>
           {t.footer.socials.map((s) => (
             <li key={s.label}>
-              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.aria} onMouseEnter={handleEnter} onMouseLeave={handleLeave} style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.15s' }}>
+              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.aria} onMouseEnter={handleEnter} onMouseLeave={handleLeave} style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none', transition: 'color 0.15s' }}>
                 {s.label} ↗
               </a>
             </li>

@@ -143,15 +143,15 @@ function ForgotPasswordContent() {
                   {t.forgotPage.sentLabel}
                 </span>
               </div>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.4)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.65)', margin: 0 }}>
                 {t.forgotPage.sentMsg}
               </p>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.7, color: 'rgba(236,232,223,0.22)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.7, color: 'rgba(236,232,223,0.55)', margin: 0 }}>
                 {t.forgotPage.sentTip}
               </p>
               <Link
                 href="/login"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.4)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, transition: 'color 0.15s' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.65)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, marginTop: 4, transition: 'color 0.15s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.8)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.4)'}
               >
@@ -169,13 +169,13 @@ function ForgotPasswordContent() {
               exit={{ opacity: 0 }}
               style={{ display: 'flex', flexDirection: 'column', gap: 20 }}
             >
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.3)', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8.5, letterSpacing: '0.06em', lineHeight: 1.85, color: 'rgba(236,232,223,0.6)', margin: 0 }}>
                 {t.forgotPage.description}
               </p>
 
               {/* Email */}
               <div>
-                <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', marginBottom: 10 }}>
+                <label htmlFor="email" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', marginBottom: 10 }}>
                   {t.forgotPage.emailLabel}
                 </label>
                 <input
@@ -228,7 +228,7 @@ function ForgotPasswordContent() {
 
               <Link
                 href="/login"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', textDecoration: 'none', transition: 'color 0.15s' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', textDecoration: 'none', transition: 'color 0.15s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.6)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.18)'}
               >
@@ -240,10 +240,10 @@ function ForgotPasswordContent() {
 
         {/* Footer */}
         <div style={{ marginTop: 28, paddingTop: 20, borderTop: '0.5px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {t.forgotPage.footerLeft}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {t.forgotPage.footerRight}
           </span>
         </div>
@@ -256,12 +256,12 @@ function ForgotPasswordContent() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.15)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
           STUDIØ.JRMH
         </span>
       </motion.div>
 
-      <style>{`input::placeholder { color: rgba(255,255,255,0.1); }`}</style>
+      <style>{`input::placeholder { color: rgba(255,255,255,0.5); }`}</style>
     </div>
   )
 }

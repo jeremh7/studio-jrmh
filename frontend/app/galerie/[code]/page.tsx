@@ -64,7 +64,7 @@ function Lightbox({ photos, index, onClose, onNav, navHint, ariaClose, ariaPrev,
         style={{ top: 0, height: 60, zIndex: 10 }}
         onClick={e => e.stopPropagation()}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(236,232,223,0.3)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.18em', color: 'rgba(236,232,223,0.6)' }}>
           {String(index + 1).padStart(2, '0')} / {String(photos.length).padStart(2, '0')}
         </span>
         <button
@@ -110,7 +110,7 @@ function Lightbox({ photos, index, onClose, onNav, navHint, ariaClose, ariaPrev,
         </>
       )}
 
-      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.1)' }}>
+      <div style={{ position: 'absolute', bottom: 20, left: '50%', transform: 'translateX(-50%)', fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)' }}>
         {navHint}
       </div>
     </motion.div>
@@ -149,7 +149,7 @@ export default function PublicGalleryPage() {
   if (loading) {
     return (
       <div style={{ minHeight: '100svh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080808' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)' }}>
           {sgp.loading}
         </span>
       </div>
@@ -160,18 +160,18 @@ export default function PublicGalleryPage() {
     return (
       <div style={{ minHeight: '100svh', background: '#080808', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
         <div style={{ maxWidth: 400, textAlign: 'center' }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px, 10vw, 80px)', letterSpacing: '0.04em', color: 'rgba(236,232,223,0.08)', marginBottom: 24 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(48px, 10vw, 80px)', letterSpacing: '0.04em', color: 'rgba(236,232,223,0.5)', marginBottom: 24 }}>
             OUPS
           </p>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.12em', color: 'rgba(192,72,48,0.7)', marginBottom: 24 }}>
             {error ?? sgp.invalidLink}
           </p>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(236,232,223,0.2)', marginBottom: 20, lineHeight: 1.7 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(236,232,223,0.55)', marginBottom: 20, lineHeight: 1.7 }}>
             {sgp.invalidBody.split('\n').map((l, i) => <span key={i}>{l}{i === 0 && <br />}</span>)}
           </p>
           <Link
             href="/login"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.5)', textDecoration: 'none' }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', textDecoration: 'none' }}
           >
             {sgp.hasAccount}
           </Link>
@@ -209,14 +209,14 @@ export default function PublicGalleryPage() {
           {/* Breadcrumb */}
           <Link
             href="/login"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.2)', textDecoration: 'none', display: 'inline-block', marginBottom: 32 }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', textDecoration: 'none', display: 'inline-block', marginBottom: 32 }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.6)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.2)'}
           >
             {sgp.back}
           </Link>
 
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.55)', marginBottom: 14 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.75)', marginBottom: 14 }}>
             {sgp.label}
           </div>
 
@@ -227,17 +227,17 @@ export default function PublicGalleryPage() {
           {/* Méta */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, alignItems: 'center', marginBottom: 12 }}>
             {(gallery as any).sessionDate && (
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.25)' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.55)' }}>
                 {fmtDate((gallery as any).sessionDate, locale)}
               </span>
             )}
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.25)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.55)' }}>
               {photos.length} {photos.length > 1 ? sgp.photoPlural : sgp.photoSingular}
             </span>
           </div>
 
           {gallery.description && (
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.06em', lineHeight: 1.7, color: 'rgba(236,232,223,0.3)', maxWidth: 560, marginTop: 8 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.06em', lineHeight: 1.7, color: 'rgba(236,232,223,0.6)', maxWidth: 560, marginTop: 8 }}>
               {gallery.description}
             </p>
           )}
@@ -249,7 +249,7 @@ export default function PublicGalleryPage() {
         {/* Grille photos */}
         {photos.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '64px 24px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.15)' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)' }}>
               {sgp.emptyMsg}
             </p>
           </div>
@@ -282,7 +282,7 @@ export default function PublicGalleryPage() {
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                   style={{ background: 'linear-gradient(to top, rgba(8,8,8,0.5) 0%, transparent 50%)' }}
                 />
-                <div style={{ position: 'absolute', top: 8, left: 8, fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.35)', opacity: 0, transition: 'opacity 0.2s' }}
+                <div style={{ position: 'absolute', top: 8, left: 8, fontFamily: 'var(--font-mono)', fontSize: 7, letterSpacing: '0.1em', color: 'rgba(236,232,223,0.6)', opacity: 0, transition: 'opacity 0.2s' }}
                   className="group-hover:opacity-100">
                   {String(i + 1).padStart(2, '0')}
                 </div>
@@ -293,12 +293,12 @@ export default function PublicGalleryPage() {
 
         {/* Footer branding */}
         <div style={{ borderTop: '0.5px solid rgba(236,232,223,0.05)', padding: '24px clamp(20px, 5vw, 56px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.15)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontSize: 14, letterSpacing: '0.12em', color: 'rgba(236,232,223,0.5)' }}>
             STUDIØ JRMH
           </span>
           <Link
             href="/login"
-            style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.15)', textDecoration: 'none' }}
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', textDecoration: 'none' }}
             onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.5)'}
             onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.15)'}
           >

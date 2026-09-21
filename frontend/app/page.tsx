@@ -156,7 +156,7 @@ function WorkGrid() {
                 {/* Texte bas */}
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 14px 16px", pointerEvents: "none", overflow: "hidden" }}>
                   {/* Tag */}
-                  <span className="grid-tag" style={{ display: "block", fontFamily: "var(--font-mono)", fontSize: 7.5, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", marginBottom: 4, transition: "opacity 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
+                  <span className="grid-tag" style={{ display: "block", fontFamily: "var(--font-mono)", fontSize: 7.5, letterSpacing: "0.22em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", marginBottom: 4, transition: "opacity 0.3s, transform 0.4s cubic-bezier(0.16,1,0.3,1)" }}>
                     {item.tag}
                   </span>
                   {/* Titre qui monte */}
@@ -191,7 +191,7 @@ function WorkGrid() {
                 <PhotoBlock alt={item.tag} index={i} style={{ width: "100%", height: "100%" }} />
               </motion.div>
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "28px 12px 12px", background: "linear-gradient(transparent, rgba(8,8,8,0.82))", pointerEvents: "none" }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 7, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", display: "block", marginBottom: 3 }}>{item.tag}</span>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 7, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", display: "block", marginBottom: 3 }}>{item.tag}</span>
                 <span style={{ fontFamily: "var(--font-display)", fontSize: 16, color: "#fff" }}>{item.title}</span>
               </div>
             </Link>
@@ -231,12 +231,12 @@ function AboutStrip() {
         <div className="about-photo" style={{ position: "relative", overflow: "hidden" }}>
           <Image src="/images/hero.jpg" fill style={{ objectFit: "cover" }} alt={t.about.ariaImg} sizes="50vw" />
           <div aria-hidden="true" style={{ position: "absolute", inset: 0, background: "rgba(8,8,8,0.2)" }} />
-          <span aria-hidden="true" style={{ position: "absolute", top: 20, left: 20, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.25)", border: "0.5px solid rgba(255,255,255,0.12)", padding: "5px 10px" }}>STUDIØ.JRMH</span>
+          <span aria-hidden="true" style={{ position: "absolute", top: 20, left: 20, fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", border: "0.5px solid rgba(255,255,255,0.12)", padding: "5px 10px" }}>STUDIØ.JRMH</span>
         </div>
 
         <div style={{ background: "#080808", padding: "clamp(36px,5vw,56px) clamp(28px,5vw,48px)", display: "flex", flexDirection: "column", justifyContent: "center", gap: 28 }}>
 
-          <p style={{ fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.35)", margin: 0 }}>
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: 8, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", margin: 0 }}>
             {t.about.label}
           </p>
 
@@ -257,7 +257,7 @@ function AboutStrip() {
           <Link
             href="/about"
             aria-label={t.about.ariaCta}
-            style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)", transition: "color 0.15s", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+            style={{ fontFamily: "var(--font-mono)", fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.65)", transition: "color 0.15s", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
             onMouseEnter={e => e.currentTarget.style.color = "#fff"}
             onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.45)"}
           >

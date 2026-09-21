@@ -86,7 +86,7 @@ function SetPasswordContent() {
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c04830' }}>
             {sp.invalidLink}
           </p>
-          <a href="/login" style={{ display: 'block', marginTop: 20, fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>
+          <a href="/login" style={{ display: 'block', marginTop: 20, fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>
             {sp.backToLogin}
           </a>
         </div>
@@ -222,7 +222,7 @@ function SetPasswordContent() {
 
               {/* Mot de passe */}
               <div>
-                <label htmlFor="password" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', marginBottom: 10 }}>
+                <label htmlFor="password" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', marginBottom: 10 }}>
                   {sp.passwordLabel}
                 </label>
                 <input
@@ -246,7 +246,7 @@ function SetPasswordContent() {
 
               {/* Confirmation */}
               <div>
-                <label htmlFor="confirm" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)', marginBottom: 10 }}>
+                <label htmlFor="confirm" style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)', marginBottom: 10 }}>
                   {sp.confirmLabel}
                 </label>
                 <input
@@ -269,7 +269,7 @@ function SetPasswordContent() {
               </div>
 
               {/* Règles */}
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.18)', lineHeight: 1.8 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8 }}>
                 {sp.rules}
               </p>
 
@@ -298,10 +298,10 @@ function SetPasswordContent() {
 
         {/* Footer */}
         <div style={{ marginTop: 28, paddingTop: 20, borderTop: '0.5px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {sp.footerLeft}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {sp.footerRight}
           </span>
         </div>
@@ -314,10 +314,10 @@ function SetPasswordContent() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.15)' }}>STUDIØ.JRMH</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>STUDIØ.JRMH</span>
       </motion.div>
 
-      <style>{`input::placeholder { color: rgba(255,255,255,0.1); }`}</style>
+      <style>{`input::placeholder { color: rgba(255,255,255,0.5); }`}</style>
     </div>
   )
 }

@@ -32,7 +32,7 @@ function ResetPasswordContent() {
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#c04830' }}>
             {rp.invalidLink}
           </p>
-          <Link href="/forgot-password" style={{ display: 'block', marginTop: 20, fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', textDecoration: 'none' }}>
+          <Link href="/forgot-password" style={{ display: 'block', marginTop: 20, fontFamily: 'var(--font-mono)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', textDecoration: 'none' }}>
             {rp.requestNew}
           </Link>
         </div>
@@ -192,11 +192,11 @@ function ResetPasswordContent() {
               {/* Mot de passe */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <label htmlFor="password" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)' }}>
+                  <label htmlFor="password" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)' }}>
                     {rp.passwordLabel}
                   </label>
                   <button type="button" onClick={() => setShowPwd(v => !v)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.25)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', background: 'none', border: 'none', cursor: 'pointer' }}>
                     {showPwd ? rp.hidePassword : rp.showPassword}
                   </button>
                 </div>
@@ -220,11 +220,11 @@ function ResetPasswordContent() {
               {/* Confirmation */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                  <label htmlFor="confirm" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.3)' }}>
+                  <label htmlFor="confirm" style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.6)' }}>
                     {rp.confirmLabel}
                   </label>
                   <button type="button" onClick={() => setShowConfirm(v => !v)}
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.25)', background: 'none', border: 'none', cursor: 'pointer' }}>
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.55)', background: 'none', border: 'none', cursor: 'pointer' }}>
                     {showConfirm ? rp.hidePassword : rp.showPassword}
                   </button>
                 </div>
@@ -246,7 +246,7 @@ function ResetPasswordContent() {
               </div>
 
               {/* Règles */}
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.18)', lineHeight: 1.8 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)', lineHeight: 1.8 }}>
                 {rp.rules}
               </p>
 
@@ -269,7 +269,7 @@ function ResetPasswordContent() {
               </button>
 
               <Link href="/login"
-                style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.18)', textDecoration: 'none', transition: 'color 0.15s' }}
+                style={{ fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(236,232,223,0.5)', textDecoration: 'none', transition: 'color 0.15s' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'rgba(212,168,67,0.6)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'rgba(236,232,223,0.18)'}
               >
@@ -281,10 +281,10 @@ function ResetPasswordContent() {
 
         {/* Footer */}
         <div style={{ marginTop: 28, paddingTop: 20, borderTop: '0.5px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {rp.footerLeft}
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.1)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
             {rp.footerRight}
           </span>
         </div>
@@ -294,12 +294,12 @@ function ResetPasswordContent() {
       <motion.div style={{ position: 'absolute', bottom: 28, left: '50%', transform: 'translateX(-50%)' }}
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.15)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>
           STUDIØ.JRMH
         </span>
       </motion.div>
 
-      <style>{`input::placeholder { color: rgba(255,255,255,0.1); }`}</style>
+      <style>{`input::placeholder { color: rgba(255,255,255,0.5); }`}</style>
     </div>
   )
 }
