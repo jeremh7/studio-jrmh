@@ -1,5 +1,13 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    return [
+      { source: '/admin', destination: `${API_URL}/admin` },
+      { source: '/admin/:path*', destination: `${API_URL}/admin/:path*` },
+    ]
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 2678400, // 31 jours — noms de fichiers uniques, cache long sans risque
