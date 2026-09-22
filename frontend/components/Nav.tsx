@@ -42,10 +42,10 @@ export default function Nav() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
-      tl.from(logoRef.current,  { opacity: 0, x: -20, duration: 0.7 }, 0.3)
-      tl.from(linksRef.current?.querySelectorAll('li') ?? [], { opacity: 0, y: -12, stagger: 0.07, duration: 0.6 }, 0.4)
-      tl.from(ctaRef.current,   { opacity: 0, x: 20, duration: 0.7 }, 0.4)
-      tl.from(menuBtnRef.current, { opacity: 0, duration: 0.5 }, 0.4)
+      if (logoRef.current)    tl.from(logoRef.current,  { opacity: 0, x: -20, duration: 0.7 }, 0.3)
+      if (linksRef.current)   tl.from(linksRef.current.querySelectorAll('li'), { opacity: 0, y: -12, stagger: 0.07, duration: 0.6 }, 0.4)
+      if (ctaRef.current)     tl.from(ctaRef.current,   { opacity: 0, x: 20, duration: 0.7 }, 0.4)
+      if (menuBtnRef.current) tl.from(menuBtnRef.current, { opacity: 0, duration: 0.5 }, 0.4)
     }, navRef)
     return () => ctx.revert()
   }, [])
@@ -95,6 +95,7 @@ export default function Nav() {
     setMenuOpen(false)
     if (!menuBtnRef.current) return
     const bars = menuBtnRef.current.querySelectorAll<HTMLSpanElement>('.bar')
+    if (bars.length < 3) return
     gsap.to(bars[0], { y: 0, rotate: 0, duration: 0.3, ease: 'expo.out' })
     gsap.to(bars[1], { opacity: 1, scaleX: 1, duration: 0.3 })
     gsap.to(bars[2], { y: 0, rotate: 0, duration: 0.3, ease: 'expo.out' })
@@ -103,6 +104,7 @@ export default function Nav() {
   const toggleBurger = (open: boolean) => {
     if (!menuBtnRef.current) return
     const bars = menuBtnRef.current.querySelectorAll<HTMLSpanElement>('.bar')
+    if (bars.length < 3) return
     if (open) {
       gsap.to(bars[0], { y: 5.5, rotate: 45,  duration: 0.3, ease: 'expo.out' })
       gsap.to(bars[1], { opacity: 0, scaleX: 0, duration: 0.2 })
