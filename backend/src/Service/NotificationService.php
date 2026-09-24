@@ -246,11 +246,11 @@ final class NotificationService
             ]);
 
         } catch (TransportExceptionInterface $e) {
+            // Pas de $e->getDebug() ici : la trace HTTP brute contient la clé API Brevo en clair.
             $this->logger->error('[Mailer] Erreur transport', [
                 'to'      => $to,
                 'subject' => $subject,
                 'error'   => $e->getMessage(),
-                'debug'   => $e->getDebug(),
             ]);
             if (!$silent) {
                 throw $e;
