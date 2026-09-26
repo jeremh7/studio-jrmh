@@ -36,7 +36,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               <Image
                 src={absUrl(project.coverImage)}
                 fill
-                sizes="(max-width:600px) 100vw, (max-width:1024px) 50vw, 33vw"
+                sizes="(max-width:1024px) 50vw, 33vw"
                 style={{ objectFit: 'cover', transition: 'transform 0.6s ease' }}
                 alt={project.title}
                 className="card-img"
@@ -209,7 +209,7 @@ export default function WorkPage() {
               </p>
             </div>
           ) : (
-            <div style={{
+            <div className="work-grid" style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(200px,26vw,300px), 1fr))',
               gap: 'clamp(16px,2vw,28px)',
@@ -228,6 +228,9 @@ export default function WorkPage() {
         .project-card:hover .card-overlay { opacity: 1 !important; }
         .project-card:hover .card-label { opacity: 1 !important; }
         .project-card:hover .card-line { background: rgba(212,168,67,0.4) !important; }
+        @media (max-width: 600px) {
+          .work-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
+        }
       `}</style>
     </div>
   )
