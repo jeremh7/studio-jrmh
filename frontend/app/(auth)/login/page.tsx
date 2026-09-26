@@ -2,7 +2,7 @@
 
 import { useState, useTransition, Suspense } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'motion/react'
@@ -16,11 +16,15 @@ const loginSchema = z.object({
 
 type FormErrors = Partial<Record<keyof z.infer<typeof loginSchema>, string>>
 
+// Chemin interne uniquement : bloque les redirections externes (//site.com, /\site.com, https://…)
+function safeCallbackUrl(raw: string | null): string {
+  return raw && /^\/(?![/\\])/.test(raw) ? raw : '/client'
+}
+
 function LoginPageContent() {
   const { t } = useLang()
-  const router       = useRouter()
   const searchParams = useSearchParams()
-  const callbackUrl  = searchParams.get('callbackUrl') ?? '/client'
+  const callbackUrl  = safeCallbackUrl(searchParams.get('callbackUrl'))
 
   const [isPending, startTransition] = useTransition()
   const [formErrors, setFormErrors]  = useState<FormErrors>({})
@@ -64,8 +68,9 @@ function LoginPageContent() {
         return
       }
 
-      router.push(callbackUrl)
-      router.refresh()
+      // Navigation complète : le cache du routeur Next garde le préchargement de /client
+      // fait avant connexion (redirigé vers /login par le middleware), router.push y retomberait.
+      window.location.assign(callbackUrl)
     })
   }
 

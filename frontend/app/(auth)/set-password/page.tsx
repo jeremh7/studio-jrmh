@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition, Suspense } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'motion/react'
 import { z } from 'zod'
@@ -14,7 +14,6 @@ type FormErrors = Partial<Record<'password' | 'confirm', string>>
 function SetPasswordContent() {
   const { t } = useLang()
   const sp = t.setPasswordPage
-  const router       = useRouter()
   const searchParams = useSearchParams()
   const token        = searchParams.get('token') ?? ''
 
@@ -71,8 +70,8 @@ function SetPasswordContent() {
           return
         }
 
-        router.push('/client')
-        router.refresh()
+        // Navigation complète : évite un préchargement de /client resté en cache (redirigé vers /login)
+        window.location.assign('/client')
       } catch (err) {
         setServerError(err instanceof Error ? err.message : 'Une erreur est survenue.')
       }
