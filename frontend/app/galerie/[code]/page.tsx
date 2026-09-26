@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { apiPublicShareView } from '@/lib/api'
 import type { Photo, PublicGallery } from '@/lib/types'
 import { useLang } from '@/lib/LangContext'
+import LightboxSpinner from '@/components/LightboxSpinner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
@@ -32,6 +33,8 @@ function Lightbox({ photos, index, onClose, onNav, navHint, ariaClose, ariaPrev,
   ariaNext: string
 }) {
   const photo = photos[index]
+  const [loadedIndex, setLoadedIndex] = useState<number | null>(null)
+  const loaded = loadedIndex === index
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -76,6 +79,8 @@ function Lightbox({ photos, index, onClose, onNav, navHint, ariaClose, ariaPrev,
         >✕</button>
       </div>
 
+      {!loaded && <LightboxSpinner />}
+
       <motion.div
         key={index}
         style={{ position: 'relative', maxWidth: '90vw', maxHeight: '85vh' }}
@@ -87,7 +92,9 @@ function Lightbox({ photos, index, onClose, onNav, navHint, ariaClose, ariaPrev,
         <img
           src={photoSrc(photo.url)}
           alt={photo.caption ?? photo.filename}
-          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', display: 'block' }}
+          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.25s' }}
+          onLoad={() => setLoadedIndex(index)}
+          onError={() => setLoadedIndex(index)}
         />
       </motion.div>
 

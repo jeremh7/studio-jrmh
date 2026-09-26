@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'motion/react'
 import { getProject, type Project, type ProjectPhoto } from '@/lib/api'
 import { useLang } from '@/lib/LangContext'
+import LightboxSpinner from '@/components/LightboxSpinner'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
@@ -25,6 +26,8 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
   strings: { ariaClose: string; ariaPrev: string; ariaNext: string; navHint: string }
 }) {
   const photo = photos[index]
+  const [loadedIndex, setLoadedIndex] = useState<number | null>(null)
+  const loaded = loadedIndex === index
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -70,6 +73,8 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
         >✕</button>
       </div>
 
+      {!loaded && <LightboxSpinner />}
+
       <motion.div
         key={index}
         style={{ position: 'relative', maxWidth: '90vw', maxHeight: '85vh' }}
@@ -82,9 +87,11 @@ function Lightbox({ photos, index, onClose, onNav, strings }: {
           src={absUrl(photo.url)}
           width={photo.width ?? 1400}
           height={photo.height ?? 940}
-          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', display: 'block' }}
+          style={{ maxWidth: '90vw', maxHeight: '85vh', objectFit: 'contain', display: 'block', opacity: loaded ? 1 : 0, transition: 'opacity 0.25s' }}
           alt={photo.caption ?? `Photo ${index + 1}`}
           priority
+          onLoad={() => setLoadedIndex(index)}
+          onError={() => setLoadedIndex(index)}
         />
         {photo.caption && (
           <div style={{ position: 'absolute', bottom: -28, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 8, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)' }}>
